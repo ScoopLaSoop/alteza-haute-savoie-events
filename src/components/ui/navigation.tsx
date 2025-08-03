@@ -12,9 +12,11 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
 
   const navItems = [
     { key: "accueil", label: "Accueil" },
-    { key: "services", label: "Nos Services" },
+    { key: "services", label: "Services" },
     { key: "portfolio", label: "Portfolio" },
     { key: "apropos", label: "À propos" },
+    { key: "quiz", label: "Quiz" },
+    { key: "faq", label: "FAQ" },
     { key: "contact", label: "Contact" },
   ];
 
@@ -40,6 +42,15 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
               {item.label}
             </button>
           ))}
+          
+          {/* CTA Button in Header */}
+          <Button
+            onClick={() => onNavigate("contact")}
+            size="sm"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground ml-4"
+          >
+            Demander un devis
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}

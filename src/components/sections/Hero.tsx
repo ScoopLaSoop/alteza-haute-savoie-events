@@ -75,23 +75,23 @@ export const Hero = ({ onNavigate }: HeroProps) => {
             {heroSlides[currentSlide].description}
           </p>
           
-          {/* Interactive Call to Action Buttons */}
+          {/* Interactive Call to Action Buttons - CTA mis en avant */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
             <Button 
               onClick={() => onNavigate("contact")}
               size="lg"
-              className="group bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-5 text-lg animate-luxury-glow transform hover:scale-105 transition-all duration-300"
+              className="group bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 font-elegant px-12 py-6 text-xl shadow-2xl shadow-primary/25 animate-luxury-glow transform hover:scale-105 transition-all duration-300 border-2 border-primary/30"
             >
-              <Heart className="w-5 h-5 mr-3 group-hover:animate-pulse" />
-              Créons votre événement de rêve
-              <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+              <Heart className="w-6 h-6 mr-4 group-hover:animate-pulse" />
+              Demander un devis gratuit
+              <ArrowRight className="w-6 h-6 ml-4 group-hover:translate-x-1 transition-transform" />
             </Button>
             
             <Button 
               onClick={() => onNavigate("portfolio")}
               variant="outline"
               size="lg"
-              className="group border-white/40 text-white hover:bg-white/10 hover:border-primary/50 font-elegant px-10 py-5 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+              className="group border-2 border-white/50 text-white hover:bg-white/10 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
             >
               <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
               Découvrir nos réalisations

@@ -9,10 +9,12 @@ import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-re
 import { useToast } from "@/hooks/use-toast";
 
 interface ContactModalProps {
-  children: React.ReactNode;
+  isOpen?: boolean;
+  onClose?: () => void;
+  children?: React.ReactNode;
 }
 
-export const ContactModal = ({ children }: ContactModalProps) => {
+export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) => {
   const [formData, setFormData] = useState({
     nom: "",
     email: "",
@@ -54,10 +56,12 @@ export const ContactModal = ({ children }: ContactModalProps) => {
   ];
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      {children && (
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+      )}
       <DialogContent className="max-w-4xl bg-gradient-card border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-luxury text-center text-foreground">
