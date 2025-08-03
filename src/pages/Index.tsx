@@ -9,6 +9,9 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { About } from "@/components/sections/About";
 import { FAQ } from "@/components/sections/FAQ";
 import { InteractiveMap } from "@/components/sections/InteractiveMap";
+import { EventQuiz } from "@/components/sections/EventQuiz";
+import { Team } from "@/components/sections/Team";
+import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { Contact } from "@/components/sections/Contact";
 
 const Index = () => {
@@ -40,7 +43,10 @@ const Index = () => {
             <Portfolio />
             <BeforeAfter />
             <InteractiveMap />
+            <EventQuiz />
             <Testimonials />
+            <Team />
+            <InstagramFeed />
             <About onNavigate={handleNavigate} />
             <FAQ />
             <Contact />

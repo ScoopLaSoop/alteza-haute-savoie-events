@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail, MapPin, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ContactModal } from "./ContactModal";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
@@ -115,13 +116,21 @@ export const Contact = () => {
                       />
                     </div>
                     
-                    <Button 
-                      type="submit"
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-elegant py-3"
-                    >
-                      <Send className="w-4 h-4 mr-2" />
-                      Envoyer ma demande
-                    </Button>
+                    <div className="flex gap-3">
+                      <Button 
+                        type="submit"
+                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-elegant py-3"
+                      >
+                        <Send className="w-4 h-4 mr-2" />
+                        Envoyer ma demande
+                      </Button>
+                      <ContactModal>
+                        <Button variant="outline" className="font-elegant py-3 px-6">
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Contact rapide
+                        </Button>
+                      </ContactModal>
+                    </div>
                   </form>
                 </CardContent>
               </Card>

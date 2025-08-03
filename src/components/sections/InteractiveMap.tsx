@@ -10,8 +10,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 export const InteractiveMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [mapboxToken, setMapboxToken] = useState("");
-  const [showTokenInput, setShowTokenInput] = useState(true);
+  const [mapboxToken] = useState("pk.eyJ1Ijoic2Nvb3BsYXNvb3AiLCJhIjoiY21kdmV4NTMyMXBrNzJqc2FpZGZ6OWs0YSJ9.iJpsK0bGuYD85L4XRZtIVw");
+  const [showTokenInput] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   // Événements géolocalisés en Haute-Savoie
@@ -90,10 +90,10 @@ export const InteractiveMap = () => {
     }
   ];
 
-  const initializeMap = (token: string) => {
+  const initializeMap = () => {
     if (!mapContainer.current) return;
 
-    mapboxgl.accessToken = token;
+    mapboxgl.accessToken = mapboxToken;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -169,12 +169,11 @@ export const InteractiveMap = () => {
     });
   };
 
-  const handleTokenSubmit = () => {
-    if (mapboxToken.trim()) {
-      initializeMap(mapboxToken);
-      setShowTokenInput(false);
+  useEffect(() => {
+    if (mapboxToken) {
+      initializeMap();
     }
-  };
+  }, [mapboxToken]);
 
   const getEventsByType = (type: string) => {
     return events.filter(event => event.type === type).length;
@@ -213,16 +212,9 @@ export const InteractiveMap = () => {
                   </a>
                 </p>
                 <div className="flex gap-2">
-                  <Input
-                    type="text"
-                    placeholder="Votre token Mapbox public"
-                    value={mapboxToken}
-                    onChange={(e) => setMapboxToken(e.target.value)}
-                    className="bg-secondary border-border"
-                  />
-                  <Button onClick={handleTokenSubmit} className="bg-primary text-primary-foreground">
-                    OK
-                  </Button>
+                  <div className="text-center">
+                    <p className="text-muted-foreground font-elegant">Token Mapbox configuré</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
