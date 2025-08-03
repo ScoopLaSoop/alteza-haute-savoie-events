@@ -8,35 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Premium luxury design system for ALTÉZA EVEN'T */
+    --background: 222 84% 3%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 84% 4%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 84% 4%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 43 85% 65%;
+    --primary-foreground: 222 84% 3%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 84% 8%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 84% 6%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 43 85% 65%;
+    --accent-foreground: 222 84% 3%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 84% 12%;
+    --input: 220 84% 8%;
+    --ring: 43 85% 65%;
 
-    --radius: 0.5rem;
+    /* Premium gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(222 84% 3%) 0%, hsl(220 84% 6%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(220 84% 4%) 0%, hsl(220 84% 6%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(43 85% 65%) 0%, hsl(43 75% 55%) 100%);
+    
+    /* Luxury shadows */
+    --shadow-luxury: 0 25px 50px -12px hsl(222 84% 3% / 0.6);
+    --shadow-gold: 0 10px 30px -10px hsl(43 85% 65% / 0.3);
+    
+    /* Premium animations */
+    --transition-luxury: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
