@@ -2,8 +2,12 @@ import { useState } from "react";
 import { Navigation } from "@/components/ui/navigation";
 import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
+import { Timeline } from "@/components/sections/Timeline";
 import { Portfolio } from "@/components/sections/Portfolio";
+import { BeforeAfter } from "@/components/sections/BeforeAfter";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { About } from "@/components/sections/About";
+import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 
 const Index = () => {
@@ -31,8 +35,12 @@ const Index = () => {
           <>
             <Hero onNavigate={handleNavigate} />
             <Services onNavigate={handleNavigate} />
+            <Timeline />
             <Portfolio />
+            <BeforeAfter />
+            <Testimonials />
             <About onNavigate={handleNavigate} />
+            <FAQ />
             <Contact />
           </>
         );
