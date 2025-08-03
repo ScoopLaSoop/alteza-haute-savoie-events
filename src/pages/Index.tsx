@@ -8,6 +8,7 @@ import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { About } from "@/components/sections/About";
 import { FAQ } from "@/components/sections/FAQ";
+import { InteractiveMap } from "@/components/sections/InteractiveMap";
 import { Contact } from "@/components/sections/Contact";
 
 const Index = () => {
@@ -38,6 +39,7 @@ const Index = () => {
             <Timeline />
             <Portfolio />
             <BeforeAfter />
+            <InteractiveMap />
             <Testimonials />
             <About onNavigate={handleNavigate} />
             <FAQ />
