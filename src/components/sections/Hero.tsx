@@ -116,15 +116,6 @@ export const Hero = ({ onNavigate }: HeroProps) => {
         </div>
       </div>
       
-      {/* Enhanced Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="flex flex-col items-center">
-          <span className="text-white/60 text-xs font-elegant mb-2">Découvrir</span>
-          <div className="w-6 h-10 border-2 border-primary/40 rounded-full flex justify-center hover:border-primary/60 transition-colors cursor-pointer">
-            <div className="w-1 h-3 bg-primary/80 rounded-full mt-2 animate-pulse" />
-          </div>
-        </div>
-      </div>
 
       {/* Slide Indicators (for future multiple slides) */}
       {heroSlides.length > 1 && (
