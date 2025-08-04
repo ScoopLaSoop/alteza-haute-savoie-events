@@ -1,33 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Phone, Mail, Facebook, Instagram, Mountain } from "lucide-react";
-
 interface FooterProps {
   onNavigate: (page: string) => void;
 }
-
-export const Footer = ({ onNavigate }: FooterProps) => {
-  return (
-    <footer className="bg-background/95 border-t border-border/50 backdrop-blur-sm">
+export const Footer = ({
+  onNavigate
+}: FooterProps) => {
+  return <footer className="bg-background/95 border-t border-border/50 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-16">
         {/* CTA de rappel dans le footer */}
         <div className="text-center mb-12">
-          <div className="inline-flex flex-col items-center space-y-4 p-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl border border-primary/20 max-w-2xl mx-auto">
-            <Mountain className="w-8 h-8 text-primary" />
-            <h3 className="text-2xl font-luxury text-foreground">
-              Prêt à créer votre événement de rêve ?
-            </h3>
-            <p className="text-muted-foreground">
-              Contactez-nous dès maintenant pour un devis personnalisé et gratuit
-            </p>
-            <Button 
-              onClick={() => onNavigate("contact")}
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3"
-            >
-              Demander un devis gratuit
-            </Button>
-          </div>
+          
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -51,21 +35,24 @@ export const Footer = ({ onNavigate }: FooterProps) => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-foreground">Navigation</h4>
             <div className="space-y-2">
-              {[
-                { key: "services", label: "Nos Services" },
-                { key: "portfolio", label: "Portfolio" },
-                { key: "apropos", label: "À propos" },
-                { key: "quiz", label: "Quiz Événement" },
-                { key: "faq", label: "FAQ" }
-              ].map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => onNavigate(item.key)}
-                  className="block text-muted-foreground hover:text-primary transition-colors font-elegant"
-                >
+              {[{
+              key: "services",
+              label: "Nos Services"
+            }, {
+              key: "portfolio",
+              label: "Portfolio"
+            }, {
+              key: "apropos",
+              label: "À propos"
+            }, {
+              key: "quiz",
+              label: "Quiz Événement"
+            }, {
+              key: "faq",
+              label: "FAQ"
+            }].map(item => <button key={item.key} onClick={() => onNavigate(item.key)} className="block text-muted-foreground hover:text-primary transition-colors font-elegant">
                   {item.label}
-                </button>
-              ))}
+                </button>)}
             </div>
           </div>
 
@@ -106,6 +93,5 @@ export const Footer = ({ onNavigate }: FooterProps) => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
