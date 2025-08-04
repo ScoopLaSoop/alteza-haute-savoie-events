@@ -84,7 +84,7 @@ export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
               <Button 
                 onClick={() => onNavigate("contact")}
                 size="lg"
-                className="min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(var(--primary),0.4)] transition-all duration-300"
+                className="min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(var(--primary),0.6)] hover:scale-105 transition-all duration-300 transform"
               >
                 Obtenir un devis gratuit
               </Button>
