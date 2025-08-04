@@ -142,7 +142,12 @@ export default {
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-card': 'var(--gradient-card)',
-				'gradient-accent': 'var(--gradient-accent)'
+				'gradient-accent': 'var(--gradient-accent)',
+				'gradient-section-base': 'var(--gradient-section-base)',
+				'gradient-section-to-muted': 'var(--gradient-section-to-muted)',
+				'gradient-muted-to-card': 'var(--gradient-muted-to-card)',
+				'gradient-card-to-base': 'var(--gradient-card-to-base)',
+				'gradient-subtle-fade': 'var(--gradient-subtle-fade)'
 			},
 			boxShadow: {
 				'luxury': 'var(--shadow-luxury)',

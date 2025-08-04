@@ -31,7 +31,7 @@ export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
   ];
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-b from-background to-muted/20">
+    <section className="py-12 px-4 bg-gradient-card-to-base">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 space-y-6">
           <h2 className="text-4xl font-bold text-foreground">

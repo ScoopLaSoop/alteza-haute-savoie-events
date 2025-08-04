@@ -21,7 +21,7 @@ export const Hero = ({
     }, 8000);
     return () => clearInterval(timer);
   }, []);
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-section-to-muted">
       {/* Enhanced Background with Parallax */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-110 transition-all duration-[8000ms] ease-in-out" style={{

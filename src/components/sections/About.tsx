@@ -8,7 +8,7 @@ interface AboutProps {
 
 export const About = ({ onNavigate }: AboutProps) => {
   return (
-    <section className="py-12 px-4 bg-gradient-to-b from-background/50 to-muted/20">
+    <section className="py-12 px-4 bg-gradient-muted-to-card">
       <div className="container mx-auto max-w-6xl">
         {/* Brève section "Qui sommes-nous" - Version épurée pour la home */}
         <div className="text-center mb-12 space-y-8">

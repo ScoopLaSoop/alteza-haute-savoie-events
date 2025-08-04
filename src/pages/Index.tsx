@@ -68,7 +68,7 @@ const Index = () => {
             <Testimonials />
             
             {/* Bloc d'accroche "Projet à réaliser" */}
-            <section className="py-16 px-4 bg-gradient-to-r from-primary/5 to-secondary/5">
+            <section className="py-16 px-4 bg-gradient-subtle-fade">
               <div className="container mx-auto max-w-4xl text-center">
                 <div className="bg-card/50 backdrop-blur-sm border border-primary/20 rounded-3xl p-12 space-y-6">
                   <h2 className="text-3xl font-bold text-foreground">
@@ -103,7 +103,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-section-base">
       <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
       <main className="pt-20">
         {renderCurrentPage()}
