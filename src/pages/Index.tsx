@@ -81,7 +81,7 @@ const Index = () => {
                     <Button 
                       onClick={handleContactModal}
                       size="lg"
-                      className="min-w-[250px] bg-primary hover:bg-primary/90 text-primary-foreground"
+                      className="min-w-[250px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform"
                     >
                       Demander un devis gratuit
                     </Button>
