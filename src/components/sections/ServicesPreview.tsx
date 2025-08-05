@@ -1,37 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Utensils, Camera, Sparkles } from "lucide-react";
-
 interface ServicesPreviewProps {
   onNavigate: (page: string) => void;
 }
-
-export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
-  const services = [
-    {
-      icon: Calendar,
-      title: "Organisation d'événements",
-      description: "Mariages, anniversaires, événements corporatifs"
-    },
-    {
-      icon: Utensils,
-      title: "Service traiteur",
-      description: "Cuisine raffinée et service impeccable"
-    },
-    {
-      icon: Camera,
-      title: "Captation photo/vidéo",
-      description: "Immortalisez vos moments précieux"
-    },
-    {
-      icon: Sparkles,
-      title: "Décoration sur-mesure",
-      description: "Ambiances uniques et personnalisées"
-    }
-  ];
-
-  return (
-    <section className="py-12 px-4 bg-gradient-card-to-base">
+export const ServicesPreview = ({
+  onNavigate
+}: ServicesPreviewProps) => {
+  const services = [{
+    icon: Calendar,
+    title: "Organisation d'événements",
+    description: "Mariages, anniversaires, événements corporatifs"
+  }, {
+    icon: Utensils,
+    title: "Service traiteur",
+    description: "Cuisine raffinée et service impeccable"
+  }, {
+    icon: Camera,
+    title: "Captation photo/vidéo",
+    description: "Immortalisez vos moments précieux"
+  }, {
+    icon: Sparkles,
+    title: "Décoration sur-mesure",
+    description: "Ambiances uniques et personnalisées"
+  }];
+  return <section className="py-12 px-4 bg-gradient-card-to-base">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16 space-y-6">
           <h2 className="text-4xl font-bold text-foreground">
@@ -44,9 +37,8 @@ export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {services.map((service, index) => {
-            const Icon = service.icon;
-            return (
-              <Card key={index} className="group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50">
+          const Icon = service.icon;
+          return <Card key={index} className="group hover:scale-105 transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50">
                 <CardContent className="p-8 text-center space-y-4">
                   <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
                     <Icon className="w-8 h-8 text-primary" />
@@ -58,9 +50,8 @@ export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
                     {service.description}
                   </p>
                 </CardContent>
-              </Card>
-            );
-          })}
+              </Card>;
+        })}
         </div>
 
         {/* CTA après la section Services */}
@@ -73,25 +64,13 @@ export const ServicesPreview = ({ onNavigate }: ServicesPreviewProps) => {
               Chaque événement est unique. Découvrez comment nous pouvons transformer votre vision en réalité.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                onClick={() => onNavigate("services")}
-                variant="outline"
-                size="lg"
-                className="min-w-[200px]"
-              >
+              <Button onClick={() => onNavigate("services")} variant="outline" size="lg" className="min-w-[200px]">
                 Découvrir nos services
               </Button>
-              <Button 
-                onClick={() => onNavigate("contact")}
-                size="lg"
-                className="min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform"
-              >
-                Obtenir un devis gratuit
-              </Button>
+              <Button onClick={() => onNavigate("contact")} size="lg" className="min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform">Obtenir un devis personnalisé</Button>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
