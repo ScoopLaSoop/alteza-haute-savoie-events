@@ -17,41 +17,36 @@ import { Team } from "@/components/sections/Team";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { Contact } from "@/components/sections/Contact";
 import { ContactModal } from "@/components/sections/ContactModal";
-
 const Index = () => {
   const [currentPage, setCurrentPage] = useState("accueil");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
-    
-    // Smooth scroll to top when navigating
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
+    // Smooth scroll to top when navigating
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
   const handleContactModal = () => {
     setIsContactModalOpen(true);
   };
-
   const renderCurrentPage = () => {
     switch (currentPage) {
       case "services":
         return <Services onNavigate={handleNavigate} />;
       case "portfolio":
-        return (
-          <>
+        return <>
             <Portfolio />
             <BeforeAfter />
-          </>
-        );
+          </>;
       case "apropos":
-        return (
-          <>
+        return <>
             <About onNavigate={handleNavigate} />
             <Timeline />
             <Team />
-          </>
-        );
+          </>;
       case "contact":
         return <Contact />;
       case "quiz":
@@ -60,8 +55,7 @@ const Index = () => {
         return <FAQ />;
       default:
         // Page d'accueil épurée selon le plan
-        return (
-          <>
+        return <>
             <Hero onNavigate={handleNavigate} />
             <About onNavigate={handleNavigate} />
             <ServicesPreview onNavigate={handleNavigate} />
@@ -78,43 +72,24 @@ const Index = () => {
                     Parlons-en dès maintenant ! Nos experts vous accompagnent de A à Z pour créer l'événement de vos rêves.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      onClick={handleContactModal}
-                      size="lg"
-                      className="min-w-[250px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform"
-                    >
-                      Demander un devis gratuit
-                    </Button>
-                    <Button 
-                      onClick={() => handleNavigate("portfolio")}
-                      variant="outline"
-                      size="lg"
-                      className="min-w-[250px]"
-                    >
+                    <Button onClick={handleContactModal} size="lg" className="min-w-[250px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform">Demander un devis personnalisé</Button>
+                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="min-w-[250px]">
                       Découvrir nos réalisations
                     </Button>
                   </div>
                 </div>
               </div>
             </section>
-          </>
-        );
+          </>;
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-section-base">
+  return <div className="min-h-screen bg-gradient-section-base">
       <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
       <main className="pt-20">
         {renderCurrentPage()}
       </main>
       <Footer onNavigate={handleNavigate} />
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={() => setIsContactModalOpen(false)} 
-      />
-    </div>
-  );
+      <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+    </div>;
 };
-
 export default Index;
