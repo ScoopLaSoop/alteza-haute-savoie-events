@@ -49,12 +49,7 @@ export const Hero = ({
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-5xl mx-auto">
           {/* Alpine Badge */}
-          <div className="inline-flex items-center px-6 py-3 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-8 animate-fade-in-up" style={{
-          animationDelay: '0.2s'
-        }}>
-            <Mountain className="w-5 h-5 text-primary mr-3" />
-            <span className="text-sm font-elegant text-primary">Agence événementielle de prestige en Haute-Savoie</span>
-          </div>
+          
           
           {/* Main Heading with Luxury Animation */}
           <h1 className="text-6xl md:text-8xl font-luxury text-white mb-8 leading-tight">
