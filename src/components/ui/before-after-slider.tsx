@@ -60,6 +60,16 @@ export const BeforeAfterSlider = ({
         touchAction: 'none'
       }}
     >
+      <input
+        type="range"
+        min={0}
+        max={100}
+        value={sliderPosition}
+        onChange={(e) => setSliderPosition(Number(e.currentTarget.value))}
+        onInput={(e) => setSliderPosition(Number(e.currentTarget.value))}
+        className="absolute inset-0 z-20 opacity-0 w-full h-full cursor-ew-resize"
+        aria-label="Faire glisser pour comparer avant/après"
+      />
       {/* Before Image */}
       <img
         src={beforeImage}
