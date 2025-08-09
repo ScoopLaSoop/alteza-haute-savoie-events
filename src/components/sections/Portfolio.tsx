@@ -16,6 +16,7 @@ export const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [dragX, setDragX] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
   const portfolioItems = [
@@ -176,10 +177,11 @@ export const Portfolio = () => {
           <Card className="overflow-hidden bg-gradient-card border-border shadow-luxury">
             {/* Mobile-first: fixed aspect ratio to avoid bad cropping + swipe */}
             <div
-              className="relative aspect-[4/5] sm:aspect-[3/4] md:h-[500px] md:aspect-auto"
+              className="relative aspect-[4/5] sm:aspect-[3/4] md:h-[500px] md:aspect-auto touch-pan-y select-none"
               onTouchStart={(e) => {
                 touchStartX.current = e.touches[0].clientX;
                 setDragX(0);
+                setIsTouching(true);
               }}
               onTouchMove={(e) => {
                 if (touchStartX.current !== null) {
@@ -192,17 +194,70 @@ export const Portfolio = () => {
                   dragX < 0 ? nextSlide() : prevSlide();
                 }
                 setDragX(0);
+                setIsTouching(false);
                 touchStartX.current = null;
               }}
             >
-              <img 
-                src={portfolioItems[currentIndex].image} 
-                alt={portfolioItems[currentIndex].title}
-                className="w-full h-full object-cover object-center transition-transform duration-200 will-change-transform"
-                loading="lazy"
-                style={{ transform: dragX ? `translateX(${dragX * 0.15}px)` : undefined }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div
+                className={`absolute inset-0 will-change-transform ${isTouching ? '' : 'transition-transform duration-200 ease-out'}`}
+                style={{ transform: dragX ? `translateX(${dragX}px)` : undefined }}
+              >
+                <img 
+                  src={portfolioItems[currentIndex].image} 
+                  alt={portfolioItems[currentIndex].title}
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                {/* Enhanced Content Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
+                  <div className="max-w-4xl grid md:grid-cols-3 gap-4 md:gap-6">
+                    <div className="md:col-span-2">
+                      <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-elegant inline-block mb-3 backdrop-blur-sm">
+                        {portfolioItems[currentIndex].category}
+                      </div>
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-luxury mb-3">
+                        {portfolioItems[currentIndex].title}
+                      </h3>
+                      <p className="text-white/90 font-elegant mb-4 line-clamp-3 md:line-clamp-none">
+                        {portfolioItems[currentIndex].description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 sm:gap-4">
+                        {portfolioItems[currentIndex].details.map((detail) => (
+                          <span key={detail} className="bg-white/10 px-3 py-1 rounded-full text-sm font-elegant backdrop-blur-sm">
+                            {detail}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center text-sm text-white/80">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].location}
+                      </div>
+                      <div className="flex items-center text-sm text-white/80">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].date}
+                      </div>
+                      <div className="flex items-center text-sm text-white/80">
+                        <Users className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].guests} invités
+                      </div>
+                      <Button 
+                        onClick={() => openLightbox(portfolioItems[currentIndex])}
+                        variant="outline"
+                        size="sm"
+                        className="mt-2 md:mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        Voir les détails
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               
               {/* Navigation Buttons - hidden on mobile to avoid overlap */}
               <Button
@@ -224,67 +279,74 @@ export const Portfolio = () => {
                 <ChevronRight className="w-4 h-4" />
               </Button>
 
-              {/* Enhanced Content Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
-                <div className="max-w-4xl grid md:grid-cols-3 gap-4 md:gap-6">
-                  <div className="md:col-span-2">
-                    <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-elegant inline-block mb-3 backdrop-blur-sm">
-                      {portfolioItems[currentIndex].category}
+                {/* Enhanced Content Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
+                  <div className="max-w-4xl grid md:grid-cols-3 gap-4 md:gap-6">
+                    <div className="md:col-span-2">
+                      <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-elegant inline-block mb-3 backdrop-blur-sm">
+                        {portfolioItems[currentIndex].category}
+                      </div>
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-luxury mb-3">
+                        {portfolioItems[currentIndex].title}
+                      </h3>
+                      <p className="text-white/90 font-elegant mb-4 line-clamp-3 md:line-clamp-none">
+                        {portfolioItems[currentIndex].description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 sm:gap-4">
+                        {portfolioItems[currentIndex].details.map((detail) => (
+                          <span key={detail} className="bg-white/10 px-3 py-1 rounded-full text-sm font-elegant backdrop-blur-sm">
+                            {detail}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-luxury mb-3">
-                      {portfolioItems[currentIndex].title}
-                    </h3>
-                    <p className="text-white/90 font-elegant mb-4 line-clamp-3 md:line-clamp-none">
-                      {portfolioItems[currentIndex].description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 sm:gap-4">
-                      {portfolioItems[currentIndex].details.map((detail) => (
-                        <span key={detail} className="bg-white/10 px-3 py-1 rounded-full text-sm font-elegant backdrop-blur-sm">
-                          {detail}
-                        </span>
-                      ))}
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center text-sm text-white/80">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].location}
+                      </div>
+                      <div className="flex items-center text-sm text-white/80">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].date}
+                      </div>
+                      <div className="flex items-center text-sm text-white/80">
+                        <Users className="w-4 h-4 mr-2" />
+                        {portfolioItems[currentIndex].guests} invités
+                      </div>
+                      <Button 
+                        onClick={() => openLightbox(portfolioItems[currentIndex])}
+                        variant="outline"
+                        size="sm"
+                        className="mt-2 md:mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                      >
+                        <Eye className="w-4 h-4 mr-2" />
+                        Voir les détails
+                      </Button>
                     </div>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center text-sm text-white/80">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {portfolioItems[currentIndex].location}
-                    </div>
-                    <div className="flex items-center text-sm text-white/80">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {portfolioItems[currentIndex].date}
-                    </div>
-                    <div className="flex items-center text-sm text-white/80">
-                      <Users className="w-4 h-4 mr-2" />
-                      {portfolioItems[currentIndex].guests} invités
-                    </div>
-                    <Button 
-                      onClick={() => openLightbox(portfolioItems[currentIndex])}
-                      variant="outline"
-                      size="sm"
-                      className="mt-2 md:mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      Voir les détails
-                    </Button>
                   </div>
                 </div>
               </div>
-
-              {/* Dots Indicator - centered on mobile */}
-              <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                {portfolioItems.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    aria-label={`Aller au slide ${index + 1}`}
-                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                      index === currentIndex ? "bg-primary scale-110" : "bg-white/30 hover:bg-white/50"
-                    }`}
-                  />
-                ))}
-              </div>
+              
+              {/* Navigation Buttons - hidden on mobile to avoid overlap */}
+              <Button
+                aria-label="Slide précédent"
+                variant="outline"
+                size="icon"
+                onClick={prevSlide}
+                className="hidden md:inline-flex absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                aria-label="Slide suivant"
+                variant="outline"
+                size="icon"
+                onClick={nextSlide}
+                className="hidden md:inline-flex absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
             </div>
           </Card>
         </div>
