@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -15,6 +15,8 @@ export const Portfolio = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [dragX, setDragX] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   const portfolioItems = [
     {
@@ -172,23 +174,43 @@ export const Portfolio = () => {
         {/* Featured Carousel */}
         <div className="relative mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
           <Card className="overflow-hidden bg-gradient-card border-border shadow-luxury">
-            {/* Mobile-first: fixed aspect ratio to avoid bad cropping */}
-            <div className="relative aspect-[4/5] sm:aspect-[3/4] md:h-[500px] md:aspect-auto">
+            {/* Mobile-first: fixed aspect ratio to avoid bad cropping + swipe */}
+            <div
+              className="relative aspect-[4/5] sm:aspect-[3/4] md:h-[500px] md:aspect-auto"
+              onTouchStart={(e) => {
+                touchStartX.current = e.touches[0].clientX;
+                setDragX(0);
+              }}
+              onTouchMove={(e) => {
+                if (touchStartX.current !== null) {
+                  const dx = e.touches[0].clientX - touchStartX.current;
+                  setDragX(dx);
+                }
+              }}
+              onTouchEnd={() => {
+                if (Math.abs(dragX) > 50) {
+                  dragX < 0 ? nextSlide() : prevSlide();
+                }
+                setDragX(0);
+                touchStartX.current = null;
+              }}
+            >
               <img 
                 src={portfolioItems[currentIndex].image} 
                 alt={portfolioItems[currentIndex].title}
-                className="w-full h-full object-cover object-center transition-all duration-700"
+                className="w-full h-full object-cover object-center transition-transform duration-200 will-change-transform"
                 loading="lazy"
+                style={{ transform: dragX ? `translateX(${dragX * 0.15}px)` : undefined }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               
-              {/* Navigation Buttons - larger touch targets on mobile */}
+              {/* Navigation Buttons - hidden on mobile to avoid overlap */}
               <Button
                 aria-label="Slide précédent"
                 variant="outline"
                 size="icon"
                 onClick={prevSlide}
-                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-8 md:w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="hidden md:inline-flex absolute left-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
@@ -197,7 +219,7 @@ export const Portfolio = () => {
                 variant="outline"
                 size="icon"
                 onClick={nextSlide}
-                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-8 md:w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="hidden md:inline-flex absolute right-3 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
