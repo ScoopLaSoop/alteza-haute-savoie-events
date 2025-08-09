@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { ArrowLeftRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -31,69 +31,30 @@ export const BeforeAfterSlider = ({
     setSliderPosition(percentage);
   };
 
-  const handleMouseStart = (e: React.MouseEvent) => {
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
     updatePosition(e.clientX);
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-    updatePosition(e.touches[0].clientX);
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    updatePosition(e.clientX);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging) {
-      updatePosition(e.clientX);
-    }
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-    if (isDragging) {
-      updatePosition(e.touches[0].clientX);
-    }
-  };
-
-  const handleEnd = () => {
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     setIsDragging(false);
+    try { e.currentTarget.releasePointerCapture(e.pointerId); } catch {}
   };
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (isDragging) {
-        updatePosition(e.clientX);
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging) {
-        e.preventDefault();
-        updatePosition(e.touches[0].clientX);
-      }
-    };
-
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('mouseup', handleEnd);
-      document.addEventListener('touchend', handleEnd);
-    }
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('mouseup', handleEnd);
-      document.removeEventListener('touchend', handleEnd);
-    };
-  }, [isDragging]);
 
   return (
     <div 
       ref={containerRef}
       className={cn("relative overflow-hidden rounded-lg select-none", className)}
-      onMouseDown={handleMouseStart}
-      onTouchStart={handleTouchStart}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
       style={{ 
         cursor: isDragging ? 'ew-resize' : 'pointer',
         touchAction: 'none'
