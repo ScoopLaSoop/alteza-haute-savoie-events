@@ -172,46 +172,50 @@ export const Portfolio = () => {
         {/* Featured Carousel */}
         <div className="relative mb-16 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
           <Card className="overflow-hidden bg-gradient-card border-border shadow-luxury">
-            <div className="relative h-96 md:h-[500px]">
+            {/* Mobile-first: fixed aspect ratio to avoid bad cropping */}
+            <div className="relative aspect-[4/5] sm:aspect-[3/4] md:h-[500px] md:aspect-auto">
               <img 
                 src={portfolioItems[currentIndex].image} 
                 alt={portfolioItems[currentIndex].title}
-                className="w-full h-full object-cover transition-all duration-700"
+                className="w-full h-full object-cover object-center transition-all duration-700"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               
-              {/* Navigation Buttons */}
+              {/* Navigation Buttons - larger touch targets on mobile */}
               <Button
+                aria-label="Slide précédent"
                 variant="outline"
                 size="icon"
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-8 md:w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
               <Button
+                aria-label="Slide suivant"
                 variant="outline"
                 size="icon"
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-8 md:w-8 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
 
               {/* Enhanced Content Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                <div className="max-w-4xl grid md:grid-cols-3 gap-6">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
+                <div className="max-w-4xl grid md:grid-cols-3 gap-4 md:gap-6">
                   <div className="md:col-span-2">
                     <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-elegant inline-block mb-3 backdrop-blur-sm">
                       {portfolioItems[currentIndex].category}
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-luxury mb-3">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-luxury mb-3">
                       {portfolioItems[currentIndex].title}
                     </h3>
-                    <p className="text-white/90 font-elegant mb-4">
+                    <p className="text-white/90 font-elegant mb-4 line-clamp-3 md:line-clamp-none">
                       {portfolioItems[currentIndex].description}
                     </p>
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex flex-wrap gap-2 sm:gap-4">
                       {portfolioItems[currentIndex].details.map((detail) => (
                         <span key={detail} className="bg-white/10 px-3 py-1 rounded-full text-sm font-elegant backdrop-blur-sm">
                           {detail}
@@ -237,7 +241,7 @@ export const Portfolio = () => {
                       onClick={() => openLightbox(portfolioItems[currentIndex])}
                       variant="outline"
                       size="sm"
-                      className="mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                      className="mt-2 md:mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
                     >
                       <Eye className="w-4 h-4 mr-2" />
                       Voir les détails
@@ -246,14 +250,15 @@ export const Portfolio = () => {
                 </div>
               </div>
 
-              {/* Dots Indicator */}
-              <div className="absolute bottom-4 right-8 flex space-x-2">
+              {/* Dots Indicator - centered on mobile */}
+              <div className="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
                 {portfolioItems.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentIndex ? "bg-primary scale-125" : "bg-white/30 hover:bg-white/50"
+                    aria-label={`Aller au slide ${index + 1}`}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                      index === currentIndex ? "bg-primary scale-110" : "bg-white/30 hover:bg-white/50"
                     }`}
                   />
                 ))}
