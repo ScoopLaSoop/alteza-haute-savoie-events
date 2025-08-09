@@ -91,12 +91,13 @@ export const BeforeAfterSlider = ({
   return (
     <div 
       ref={containerRef}
-      className={cn("relative overflow-hidden rounded-lg touch-none select-none", className)}
+      className={cn("relative overflow-hidden rounded-lg select-none", className)}
       onMouseDown={handleMouseStart}
       onTouchStart={handleTouchStart}
-      onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
-      style={{ cursor: isDragging ? 'ew-resize' : 'pointer' }}
+      style={{ 
+        cursor: isDragging ? 'ew-resize' : 'pointer',
+        touchAction: 'none'
+      }}
     >
       {/* Before Image */}
       <img
