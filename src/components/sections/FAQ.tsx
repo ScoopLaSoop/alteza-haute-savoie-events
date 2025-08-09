@@ -31,7 +31,7 @@ export const FAQ = () => {
   const faqData: FAQItem[] = [{
     category: "general",
     question: "Combien de temps à l'avance dois-je vous contacter ?",
-    answer: "Nous recommandons de nous contacter au moins 3-6 mois à l'avance pour les événements importants (mariages, galas), et 1-2 mois pour les événements plus simples. Cependant, nous acceptons aussi les demandes de dernière minute selon nos disponibilités."
+    answer: "Nous recommandons de nous contacter 6 à 9 mois à l'avance pour les événements importants (mariages, galas) et 2 à 3 mois pour les événements plus simples. Nous acceptons aussi les demandes de dernière minute selon nos disponibilités."
   }, {
     category: "general",
     question: "Intervenez-vous uniquement en Haute-Savoie ?",
@@ -166,9 +166,11 @@ export const FAQ = () => {
             <p className="text-muted-foreground font-elegant mb-4">
               Vous avez d'autres questions ? Notre équipe est là pour vous aider
             </p>
-            <div className="inline-flex items-center px-6 py-3 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm">
-              <Phone className="w-4 h-4 text-primary mr-2" />
-              <span className="text-sm font-elegant text-primary">Réponse sous 24h garantie</span>
+            <div className="flex justify-center">
+              <div className="inline-flex items-center px-6 py-3 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm">
+                <Phone className="w-4 h-4 text-primary mr-2" />
+                <span className="text-sm font-elegant text-primary">Réponse sous 24–48 h garantie</span>
+              </div>
             </div>
           </div>
         </div>

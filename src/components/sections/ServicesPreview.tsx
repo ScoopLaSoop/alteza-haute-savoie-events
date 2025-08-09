@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, Utensils, Camera, Sparkles } from "lucide-react";
+import { Calendar, Utensils, Camera, Sparkles, Wine } from "lucide-react";
 interface ServicesPreviewProps {
   onNavigate: (page: string) => void;
 }
@@ -16,9 +16,9 @@ export const ServicesPreview = ({
     title: "Service traiteur",
     description: "Cuisine raffinée et service impeccable"
   }, {
-    icon: Camera,
-    title: "Captation photo/vidéo",
-    description: "Immortalisez vos moments précieux"
+    icon: Wine,
+    title: "Bar (cocktails & softs)",
+    description: "Service de bar complet avec barmen professionnels"
   }, {
     icon: Sparkles,
     title: "Décoration sur-mesure",

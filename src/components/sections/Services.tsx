@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, Gift, PartyPopper, Building } from "lucide-react";
+import { Heart, Gift, PartyPopper, Building, Wine } from "lucide-react";
 import mariageImg from "@/assets/service-mariage.jpg";
 import anniversaireImg from "@/assets/service-anniversaire.jpg";
 import evjfImg from "@/assets/service-evjf.jpg";
@@ -39,6 +39,13 @@ export const Services = ({ onNavigate }: ServicesProps) => {
       icon: Building,
       image: corporateImg,
       highlights: ["Séminaires", "Galas", "Team-building"]
+    },
+    {
+      title: "Bar (cocktails & softs)",
+      description: "Service de bar complet avec barmen professionnels, cocktails créatifs et boissons sans alcool. Équipement moderne et service en tenue pour tous vos événements.",
+      icon: Wine,
+      image: corporateImg, // Temporary image
+      highlights: ["Barmen/mixologues", "Cocktails personnalisés", "Service en tenue"]
     }
   ];
 

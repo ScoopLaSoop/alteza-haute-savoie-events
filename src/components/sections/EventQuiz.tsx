@@ -2,12 +2,26 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, RotateCcw, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { ChevronRight, RotateCcw, Sparkles, Send, Calendar, MapPin, User, Mail, Phone, Check } from "lucide-react";
 
 export const EventQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [showResult, setShowResult] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [showThanks, setShowThanks] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    date: '',
+    location: '',
+    eventType: '',
+    services: ''
+  });
 
   const questions = [
     {
@@ -32,16 +46,6 @@ export const EventQuiz = () => {
     },
     {
       id: 3,
-      question: "Quel est votre budget approximatif ?",
-      options: [
-        { label: "Moins de 10 000€", value: "budget1", emoji: "💰" },
-        { label: "10 000€ - 25 000€", value: "budget2", emoji: "💰" },
-        { label: "25 000€ - 50 000€", value: "budget3", emoji: "💰" },
-        { label: "Plus de 50 000€", value: "budget4", emoji: "💰" }
-      ]
-    },
-    {
-      id: 4,
       question: "Quel style recherchez-vous ?",
       options: [
         { label: "Élégant et classique", value: "classic", emoji: "🎩" },
@@ -67,34 +71,42 @@ export const EventQuiz = () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setShowResult(false);
+    setShowForm(false);
+    setShowThanks(false);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowThanks(true);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const getRecommendation = () => {
-    const [eventType, size, budget, style] = answers;
+    const [eventType, size, style] = answers;
     
     // Logique simple de recommandation basée sur les réponses
     if (eventType === "mariage") {
-      if (budget === "budget4" && style === "luxury") {
+      if (style === "luxury") {
         return {
           title: "Package Prestige Mariage",
           description: "Organisation complète avec lieux d'exception, décoration luxueuse et service premium",
-          services: ["Coordination complète", "Décoration sur-mesure", "Traiteur gastronomique", "Service concierge"],
-          estimatedPrice: "40 000€ - 80 000€"
+          services: ["Coordination complète", "Décoration sur-mesure", "Traiteur gastronomique", "Service concierge"]
         };
       } else if (size === "medium" && style === "classic") {
         return {
-          title: "Package Élégance Mariage",
+          title: "Package Élégance Mariage", 
           description: "Mariage raffiné avec attention aux détails et service personnalisé",
-          services: ["Coordination jour J", "Décoration élégante", "Prestataires sélectionnés", "Timeline détaillée"],
-          estimatedPrice: "15 000€ - 35 000€"
+          services: ["Coordination jour J", "Décoration élégante", "Prestataires sélectionnés", "Timeline détaillée"]
         };
       }
     } else if (eventType === "corporate") {
       return {
         title: "Package Corporate Premium",
         description: "Événement d'entreprise professionnel avec impact garanti",
-        services: ["Gestion logistique", "Animation & shows", "Catering professionnel", "Support technique"],
-        estimatedPrice: "20 000€ - 60 000€"
+        services: ["Gestion logistique", "Animation & shows", "Catering professionnel", "Support technique"]
       };
     }
 
@@ -102,8 +114,7 @@ export const EventQuiz = () => {
     return {
       title: "Package Sur-Mesure",
       description: "Solution personnalisée adaptée à vos besoins spécifiques",
-      services: ["Consultation gratuite", "Devis personnalisé", "Coordination adaptée", "Suivi dédié"],
-      estimatedPrice: "Sur devis"
+      services: ["Consultation gratuite", "Devis personnalisé", "Coordination adaptée", "Suivi dédié"]
     };
   };
 
@@ -205,11 +216,8 @@ export const EventQuiz = () => {
                     </div>
 
                     <div className="bg-primary/10 p-4 rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <span className="font-elegant text-muted-foreground">Estimation :</span>
-                        <span className="font-luxury text-primary text-lg">
-                          {recommendation.estimatedPrice}
-                        </span>
+                      <div className="text-center">
+                        <span className="font-elegant text-muted-foreground">Votre estimation sera établie sur devis.</span>
                       </div>
                     </div>
 
@@ -218,8 +226,11 @@ export const EventQuiz = () => {
                         <RotateCcw className="w-4 h-4 mr-2" />
                         Recommencer
                       </Button>
-                      <Button className="bg-primary text-primary-foreground">
-                        Demander un devis
+                      <Button 
+                        className="bg-primary text-primary-foreground"
+                        onClick={() => setShowForm(true)}
+                      >
+                        Recevoir mon devis
                       </Button>
                     </div>
                   </div>
@@ -228,6 +239,181 @@ export const EventQuiz = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Form Modal */}
+        {showForm && !showThanks && (
+          <Card className="bg-gradient-card border-border shadow-luxury max-w-2xl mx-auto mt-8 animate-scale-in">
+            <CardContent className="p-8">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-luxury text-foreground mb-2">
+                  Recevez votre devis personnalisé
+                </h3>
+                <p className="text-muted-foreground font-elegant">
+                  Remplissez ce formulaire pour recevoir votre estimation détaillée
+                </p>
+              </div>
+
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="name" className="flex items-center text-foreground font-elegant mb-2">
+                      <User className="w-4 h-4 mr-2 text-primary" />
+                      Nom complet *
+                    </Label>
+                    <Input
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      className="bg-secondary/20 border-border"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="email" className="flex items-center text-foreground font-elegant mb-2">
+                      <Mail className="w-4 h-4 mr-2 text-primary" />
+                      Email *
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      className="bg-secondary/20 border-border"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="phone" className="flex items-center text-foreground font-elegant mb-2">
+                      <Phone className="w-4 h-4 mr-2 text-primary" />
+                      Téléphone
+                    </Label>
+                    <Input
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      className="bg-secondary/20 border-border"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="date" className="flex items-center text-foreground font-elegant mb-2">
+                      <Calendar className="w-4 h-4 mr-2 text-primary" />
+                      Date souhaitée
+                    </Label>
+                    <Input
+                      id="date"
+                      type="date"
+                      value={formData.date}
+                      onChange={(e) => handleInputChange('date', e.target.value)}
+                      className="bg-secondary/20 border-border"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="location" className="flex items-center text-foreground font-elegant mb-2">
+                    <MapPin className="w-4 h-4 mr-2 text-primary" />
+                    Lieu de l'événement
+                  </Label>
+                  <Input
+                    id="location"
+                    value={formData.location}
+                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    className="bg-secondary/20 border-border"
+                    placeholder="Ville, lieu spécifique..."
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="eventType" className="flex items-center text-foreground font-elegant mb-2">
+                    Type d'événement
+                  </Label>
+                  <Input
+                    id="eventType"
+                    value={formData.eventType}
+                    onChange={(e) => handleInputChange('eventType', e.target.value)}
+                    className="bg-secondary/20 border-border"
+                    placeholder="Mariage, anniversaire, corporate..."
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="services" className="flex items-center text-foreground font-elegant mb-2">
+                    Services souhaités
+                  </Label>
+                  <Textarea
+                    id="services"
+                    value={formData.services}
+                    onChange={(e) => handleInputChange('services', e.target.value)}
+                    className="bg-secondary/20 border-border min-h-[100px]"
+                    placeholder="Décoration, traiteur, bar, animation..."
+                  />
+                </div>
+
+                <div className="flex gap-4 justify-center pt-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setShowForm(false)}
+                  >
+                    Annuler
+                  </Button>
+                  <Button 
+                    type="submit" 
+                    className="bg-primary text-primary-foreground min-w-[200px]"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    Envoyer ma demande
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Thank You Page */}
+        {showThanks && (
+          <Card className="bg-gradient-card border-border shadow-luxury max-w-2xl mx-auto mt-8 animate-scale-in">
+            <CardContent className="p-8 text-center">
+              <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Check className="w-10 h-10 text-green-500" />
+              </div>
+              
+              <h3 className="text-2xl font-luxury text-foreground mb-4">
+                Merci pour votre demande !
+              </h3>
+              
+              <p className="text-muted-foreground font-elegant mb-6">
+                Votre demande de devis a été envoyée avec succès. Notre équipe vous contactera dans les 24–48h pour discuter de votre projet.
+              </p>
+              
+              <div className="space-y-4">
+                <Button 
+                  className="bg-primary text-primary-foreground min-w-[250px]"
+                  onClick={() => window.open('https://calendly.com', '_blank')}
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Prendre rendez-vous
+                </Button>
+                
+                <div>
+                  <Button 
+                    variant="outline" 
+                    onClick={resetQuiz}
+                    className="min-w-[200px]"
+                  >
+                    <RotateCcw className="w-4 h-4 mr-2" />
+                    Nouveau quiz
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </section>
   );

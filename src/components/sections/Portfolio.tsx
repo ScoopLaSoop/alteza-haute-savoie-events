@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { BeforeAfterSlider } from "@/components/ui/before-after-slider";
+import { ModificationsBlock } from "@/components/sections/ModificationsBlock";
 import { ChevronLeft, ChevronRight, Eye, Play, X, MapPin, Calendar, Users, Award } from "lucide-react";
 import mariageImg from "@/assets/service-mariage.jpg";
 import anniversaireImg from "@/assets/service-anniversaire.jpg";
@@ -26,6 +28,8 @@ export const Portfolio = () => {
       budget: "35 000€",
       details: ["150 invités", "Cérémonie + Réception", "Décoration florale"],
       gallery: [heroImg, mariageImg],
+      beforeImage: heroImg,
+      afterImage: mariageImg,
       testimonial: {
         text: "Une journée absolument magique ! Chaque détail était parfait.",
         author: "Marie & Pierre Dubois"
@@ -44,6 +48,8 @@ export const Portfolio = () => {
       budget: "22 000€",
       details: ["80 invités", "Cérémonie outdoor", "Ambiance montagne"],
       gallery: [mariageImg, heroImg],
+      beforeImage: mariageImg,
+      afterImage: heroImg,
       testimonial: {
         text: "Un cadre de rêve pour notre union, tout était parfait !",
         author: "Sophie & Marc"
@@ -62,6 +68,8 @@ export const Portfolio = () => {
       budget: "18 000€",
       details: ["100 invités", "Thème doré", "DJ + Animations"],
       gallery: [anniversaireImg, corporateImg],
+      beforeImage: anniversaireImg,
+      afterImage: corporateImg,
       testimonial: {
         text: "Une soirée inoubliable qui a dépassé toutes mes attentes !",
         author: "Claire Martin"
@@ -80,6 +88,8 @@ export const Portfolio = () => {
       budget: "3 500€",
       details: ["12 participantes", "Spa + Brunch", "Soirée lac"],
       gallery: [evjfImg, anniversaireImg],
+      beforeImage: evjfImg,
+      afterImage: anniversaireImg,
       testimonial: {
         text: "Le plus bel EVJF possible ! Mes amies en parlent encore.",
         author: "Sarah et ses amies"
@@ -98,6 +108,8 @@ export const Portfolio = () => {
       budget: "45 000€",
       details: ["200 participants", "Conférences", "Team building"],
       gallery: [corporateImg, heroImg],
+      beforeImage: corporateImg,
+      afterImage: heroImg,
       testimonial: {
         text: "Un événement corporate d'exception qui a fédéré nos équipes.",
         author: "Jean-Michel Rousseau, DG TechAlpes"
@@ -374,6 +386,30 @@ export const Portfolio = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Before/After Slider */}
+                <div className="space-y-4">
+                  <h4 className="text-xl font-luxury text-foreground">Transformation avant/après</h4>
+                  <BeforeAfterSlider
+                    beforeImage={selectedProject.beforeImage}
+                    afterImage={selectedProject.afterImage}
+                    beforeAlt={`${selectedProject.title} - avant transformation`}
+                    afterAlt={`${selectedProject.title} - après transformation`}
+                    className="h-64 md:h-96"
+                  />
+                  <div className="flex justify-center">
+                    <Button variant="outline" size="sm" className="text-sm">
+                      Voir plus d'images
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Modifications Block */}
+                <ModificationsBlock
+                  beforeGuests={selectedProject.guests - 30}
+                  afterGuests={selectedProject.guests}
+                  setupTime="5 h"
+                />
 
                 {/* Testimonial */}
                 <div className="bg-gradient-accent/10 p-6 rounded-lg">
