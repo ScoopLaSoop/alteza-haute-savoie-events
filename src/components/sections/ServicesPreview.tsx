@@ -63,11 +63,11 @@ export const ServicesPreview = ({
             <p className="text-muted-foreground max-w-md">
               Chaque événement est unique. Découvrez comment nous pouvons transformer votre vision en réalité.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={() => onNavigate("services")} variant="outline" size="lg" className="min-w-[200px]">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button onClick={() => onNavigate("services")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px]">
                 Découvrir nos services
               </Button>
-              <Button onClick={() => onNavigate("contact")} size="lg" className="min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform">Obtenir un devis personnalisé</Button>
+              <Button onClick={() => onNavigate("contact")} size="lg" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform">Obtenir un devis personnalisé</Button>
             </div>
           </div>
         </div>

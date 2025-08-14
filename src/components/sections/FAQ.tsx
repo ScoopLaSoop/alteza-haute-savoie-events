@@ -13,20 +13,16 @@ export const FAQ = () => {
   const [openItems, setOpenItems] = useState<number[]>([]);
   const categories = [{
     id: "general",
-    name: "Questions générales",
-    icon: "❓"
+    name: "Questions générales"
   }, {
     id: "planning",
-    name: "Planification",
-    icon: "📅"
+    name: "Planification"
   }, {
     id: "budget",
-    name: "Budget & Devis",
-    icon: "💰"
+    name: "Budget & Devis"
   }, {
     id: "logistique",
-    name: "Logistique",
-    icon: "🚚"
+    name: "Logistique"
   }];
   const faqData: FAQItem[] = [{
     category: "general",
@@ -77,7 +73,9 @@ export const FAQ = () => {
     question: "Que se passe-t-il en cas de mauvais temps ?",
     answer: "Nous préparons toujours des solutions alternatives : locations de chapiteaux, espaces de repli couverts, adaptation du programme. La météo ne gâchera jamais votre événement !"
   }];
-  const filteredFAQ = faqData.filter(item => item.category === activeCategory);
+  const filteredFAQ = faqData
+    .filter(item => item.category === activeCategory)
+    .sort((a, b) => b.answer.length - a.answer.length); // Trier par longueur décroissante
   const toggleItem = (index: number) => {
     setOpenItems(prev => prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]);
   };
@@ -108,7 +106,6 @@ export const FAQ = () => {
           animationDelay: '0.6s'
         }}>
             {categories.map(category => <button key={category.id} onClick={() => setActiveCategory(category.id)} className={`flex items-center px-6 py-3 rounded-full transition-all duration-300 font-elegant ${activeCategory === category.id ? 'bg-primary text-primary-foreground shadow-gold' : 'bg-secondary text-muted-foreground hover:bg-primary/20 hover:text-foreground'}`}>
-                <span className="mr-2">{category.icon}</span>
                 {category.name}
               </button>)}
           </div>

@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronRight, RotateCcw, Sparkles, Send, Calendar, MapPin, User, Mail, Phone, Check } from "lucide-react";
+import { ChevronRight, RotateCcw, Sparkles, Send, Calendar, MapPin, User, Mail, Phone, Check, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { clientService, devisService } from "@/lib/supabase";
 
 export const EventQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -13,6 +15,7 @@ export const EventQuiz = () => {
   const [showResult, setShowResult] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [showThanks, setShowThanks] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +25,7 @@ export const EventQuiz = () => {
     eventType: '',
     services: ''
   });
+  const { toast } = useToast();
 
   const questions = [
     {
@@ -75,9 +79,68 @@ export const EventQuiz = () => {
     setShowThanks(false);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowThanks(true);
+    setIsSubmitting(true);
+
+    try {
+      // Récupérer les services sélectionnés depuis les réponses du quiz
+      const [eventType, size, style, services] = answers;
+      const servicesArray = services ? services.split(', ') : [];
+      
+      // Ajouter les services du formulaire si présents
+      if (formData.services) {
+        servicesArray.push(formData.services);
+      }
+
+      // Séparer nom et prénom depuis le champ name
+      const nameParts = formData.name.trim().split(' ');
+      const prenom = nameParts[0] || '';
+      const nom = nameParts.slice(1).join(' ') || '';
+      
+      // Créer ou mettre à jour le client
+      const client = await clientService.upsertClient({
+        nom: nom || prenom, // Si pas de nom, utiliser le prénom
+        prenom: nom ? prenom : '', // Si il y a un nom, le premier mot est le prénom
+        email: formData.email,
+        telephone: formData.phone
+      });
+
+      if (!client) {
+        throw new Error("Erreur lors de la création du client");
+      }
+
+      // Créer la demande de devis avec les informations du quiz
+      const demandeDevis = await devisService.createDemandeDevis({
+        client_id: client.id,
+        type_evenement: eventType || formData.eventType,
+        date_evenement: formData.date || undefined,
+        lieu_evenement: formData.location || undefined,
+        services_demandes: servicesArray,
+        message: `Quiz complété - Style: ${style}, Taille: ${size}. Services additionnels: ${formData.services}`,
+        statut: "nouveau"
+      });
+
+      if (!demandeDevis) {
+        throw new Error("Erreur lors de la création de la demande de devis");
+      }
+
+      toast({
+        title: "Demande de devis envoyée avec succès ! 🎉",
+        description: "Nous vous contacterons rapidement avec une proposition personnalisée.",
+      });
+
+      setShowThanks(true);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du devis:", error);
+      toast({
+        title: "Erreur lors de l'envoi ❌",
+        description: `Détails: ${error instanceof Error ? error.message : String(error)}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -230,7 +293,7 @@ export const EventQuiz = () => {
                         className="bg-primary text-primary-foreground"
                         onClick={() => setShowForm(true)}
                       >
-                        Recevoir mon devis
+                        Demander un devis
                       </Button>
                     </div>
                   </div>
@@ -246,7 +309,7 @@ export const EventQuiz = () => {
             <CardContent className="p-8">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-luxury text-foreground mb-2">
-                  Recevez votre devis personnalisé
+                  Demandez votre devis personnalisé
                 </h3>
                 <p className="text-muted-foreground font-elegant">
                   Remplissez ce formulaire pour recevoir votre estimation détaillée
@@ -364,10 +427,20 @@ export const EventQuiz = () => {
                   </Button>
                   <Button 
                     type="submit" 
-                    className="bg-primary text-primary-foreground min-w-[200px]"
+                    disabled={isSubmitting}
+                    className="bg-primary text-primary-foreground min-w-[200px] disabled:opacity-50"
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Envoyer ma demande
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Envoyer ma demande
+                      </>
+                    )}
                   </Button>
                 </div>
               </form>

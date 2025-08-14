@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/ui/navigation";
 import { Footer } from "@/components/ui/footer";
 import { Button } from "@/components/ui/button";
@@ -11,15 +11,28 @@ import { Portfolio } from "@/components/sections/Portfolio";
 import { Timeline } from "@/components/sections/Timeline";
 import { BeforeAfter } from "@/components/sections/BeforeAfter";
 import { FAQ } from "@/components/sections/FAQ";
-import { InteractiveMap } from "@/components/sections/InteractiveMap";
 import { EventQuiz } from "@/components/sections/EventQuiz";
 import { Team } from "@/components/sections/Team";
-import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { Contact } from "@/components/sections/Contact";
 import { ContactModal } from "@/components/sections/ContactModal";
+import { FloatingContact } from "@/components/ui/floating-contact";
+import { SupabaseDiagnostic } from "@/components/ui/supabase-diagnostic";
+import { preloadCriticalImages, intelligentPreload } from "@/utils/image-preloader";
 const Index = () => {
   const [currentPage, setCurrentPage] = useState("accueil");
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  // Preload critical images on mount
+  useEffect(() => {
+    preloadCriticalImages();
+    
+    // Intelligent preload after initial load
+    const timer = setTimeout(() => {
+      intelligentPreload();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
   const handleNavigate = (page: string) => {
     setCurrentPage(page);
 
@@ -53,6 +66,8 @@ const Index = () => {
         return <EventQuiz />;
       case "faq":
         return <FAQ />;
+      case "diagnostic":
+        return <div className="py-20"><SupabaseDiagnostic /></div>;
       default:
         // Page d'accueil épurée selon le plan
         return <>
@@ -66,14 +81,14 @@ const Index = () => {
               <div className="container mx-auto max-w-4xl text-center">
                 <div className="bg-card/50 backdrop-blur-sm border border-primary/20 rounded-3xl p-12 space-y-6">
                   <h2 className="text-3xl font-bold text-foreground">
-                    Vous avez un projet d'événement ?
+                    Vous avez un projet d'<span className="text-foreground">événement</span> ?
                   </h2>
                   <p className="text-xl text-muted-foreground">
                     Parlons-en dès maintenant ! Nos experts vous accompagnent de A à Z pour créer l'événement de vos rêves.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button onClick={handleContactModal} size="lg" className="min-w-[250px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform">Demander un devis personnalisé</Button>
-                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="min-w-[250px]">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-4 sm:px-6">Demander un devis</Button>
+                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-foreground/20 hover:bg-foreground/5">
                       Découvrir nos réalisations
                     </Button>
                   </div>
@@ -90,6 +105,7 @@ const Index = () => {
       </main>
       <Footer onNavigate={handleNavigate} />
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+      <FloatingContact onNavigateToContact={() => handleNavigate("contact")} />
     </div>;
 };
 export default Index;

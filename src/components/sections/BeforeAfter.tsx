@@ -2,10 +2,13 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wand2, ArrowLeftRight, Sparkles } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const BeforeAfter = () => {
   const [activeProject, setActiveProject] = useState(0);
   const [sliderPosition, setSliderPosition] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const isMobile = useIsMobile();
 
   const projects = [
     {
@@ -58,11 +61,44 @@ export const BeforeAfter = () => {
     }
   ];
 
-  const handleSliderMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
+  const updateSliderPosition = (clientX: number, element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+    const x = clientX - rect.left;
     const percentage = (x / rect.width) * 100;
     setSliderPosition(Math.max(0, Math.min(100, percentage)));
+  };
+
+  const handleSliderMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMobile) {
+      updateSliderPosition(e.clientX, e.currentTarget);
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    updateSliderPosition(e.clientX, e.currentTarget);
+  };
+
+  // Gestion des événements tactiles pour mobile
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    const touch = e.touches[0];
+    updateSliderPosition(touch.clientX, e.currentTarget);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    updateSliderPosition(touch.clientX, e.currentTarget);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsDragging(false);
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
@@ -109,7 +145,16 @@ export const BeforeAfter = () => {
                   <div 
                     className="relative h-96 cursor-ew-resize select-none"
                     onMouseMove={handleSliderMove}
-                    onClick={handleSliderMove}
+                    onClick={handleClick}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    onTouchCancel={handleTouchEnd}
+                    style={{ 
+                      touchAction: "none",
+                      WebkitUserSelect: "none",
+                      userSelect: "none"
+                    }}
                   >
                     {/* Before Image */}
                     <div className="absolute inset-0 bg-gradient-to-br from-muted/20 to-muted/40 flex items-center justify-center">
@@ -132,17 +177,30 @@ export const BeforeAfter = () => {
 
                     {/* Slider Line */}
                     <div 
-                      className="absolute top-0 bottom-0 w-1 bg-white shadow-lg z-10 cursor-ew-resize"
+                      className="absolute top-0 bottom-0 w-1 bg-white shadow-lg z-10 cursor-ew-resize pointer-events-none"
                       style={{ left: `${sliderPosition}%` }}
+                    />
+                    
+                    {/* Slider Control Button */}
+                    <div 
+                      className={`absolute z-20 bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 pointer-events-none ${
+                        isMobile ? "w-12 h-12" : "w-8 h-8"
+                      } ${isDragging ? "scale-110 shadow-xl" : "hover:scale-105"}`}
+                      style={{ 
+                        left: `${sliderPosition}%`, 
+                        top: "50%", 
+                        transform: "translate(-50%, -50%)" 
+                      }}
                     >
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center">
-                        <ArrowLeftRight className="w-4 h-4 text-primary" />
-                      </div>
+                      <ArrowLeftRight className={`text-primary transition-all duration-200 ${
+                        isMobile ? "w-6 h-6" : "w-4 h-4"
+                      } ${isDragging && "scale-110"}`} />
                     </div>
 
                     {/* Instructions */}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-elegant backdrop-blur-sm">
-                      Glissez pour comparer
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-elegant backdrop-blur-sm pointer-events-none">
+                      <span className="hidden md:inline">Glissez ou cliquez pour comparer</span>
+                      <span className="md:hidden">👆 Touchez et glissez</span>
                     </div>
                   </div>
                 </CardContent>

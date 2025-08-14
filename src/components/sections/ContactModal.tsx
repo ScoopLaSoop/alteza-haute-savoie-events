@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+import { MessageCircle, Phone, Mail, MapPin, Send, CheckCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { clientService, devisService } from "@/lib/supabase";
 
 interface ContactModalProps {
   isOpen?: boolean;
@@ -17,27 +18,62 @@ interface ContactModalProps {
 export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) => {
   const [formData, setFormData] = useState({
     nom: "",
+    prenom: "",
     email: "",
     telephone: "",
     message: "",
     typeEvenement: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    toast({
-      title: "Message envoyé !",
-      description: "Nous vous répondrons dans les plus brefs délais.",
-    });
-    
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ nom: "", email: "", telephone: "", message: "", typeEvenement: "" });
-    }, 2000);
+    setIsSubmitting(true);
+
+    try {
+      // Créer ou mettre à jour le client
+      const client = await clientService.upsertClient({
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        telephone: formData.telephone
+      });
+
+      if (!client) {
+        throw new Error("Erreur lors de la création du client");
+      }
+
+      // Créer une demande de devis rapide
+      const demandeDevis = await devisService.createDemandeDevis({
+        client_id: client.id,
+        type_evenement: formData.typeEvenement || "Contact rapide",
+        services_demandes: ["Contact rapide"],
+        message: formData.message,
+        statut: "nouveau"
+      });
+
+      if (!demandeDevis) {
+        throw new Error("Erreur lors de la création de la demande");
+      }
+
+      toast({
+        title: "Message envoyé avec succès ! ✅",
+        description: "Nous vous recontacterons rapidement.",
+      });
+
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      toast({
+        title: "Erreur lors de l'envoi ❌",
+        description: `Détails: ${error instanceof Error ? error.message : String(error)}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -138,9 +174,22 @@ export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) =
                     className="bg-secondary border-border resize-none"
                   />
                   
-                  <Button type="submit" className="w-full bg-primary text-primary-foreground">
-                    <Send className="w-4 h-4 mr-2" />
-                    Envoyer le message
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-primary text-primary-foreground disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Envoyer le message
+                      </>
+                    )}
                   </Button>
                 </form>
               </>

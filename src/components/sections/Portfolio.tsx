@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { BeforeAfterSlider } from "@/components/ui/before-after-slider";
+import { MobileBeforeAfterSlider } from "@/components/ui/mobile-before-after-slider";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ModificationsBlock } from "@/components/sections/ModificationsBlock";
 import { ChevronLeft, ChevronRight, Eye, Play, X, MapPin, Calendar, Users, Award } from "lucide-react";
 import mariageImg from "@/assets/service-mariage.jpg";
@@ -18,6 +20,7 @@ export const Portfolio = () => {
   const [dragX, setDragX] = useState(0);
   const [isTouching, setIsTouching] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const isMobile = useIsMobile();
 
   const portfolioItems = [
     {
@@ -424,13 +427,23 @@ export const Portfolio = () => {
                 {/* Before/After Slider */}
                 <div className="space-y-4">
                   <h4 className="text-xl font-luxury text-foreground">Transformation avant/après</h4>
-                  <BeforeAfterSlider
-                    beforeImage={selectedProject.beforeImage}
-                    afterImage={selectedProject.afterImage}
-                    beforeAlt={`${selectedProject.title} - avant transformation`}
-                    afterAlt={`${selectedProject.title} - après transformation`}
-                    className="h-64 md:h-96"
-                  />
+                  {isMobile ? (
+                    <MobileBeforeAfterSlider
+                      beforeImage={selectedProject.beforeImage}
+                      afterImage={selectedProject.afterImage}
+                      beforeAlt={`${selectedProject.title} - avant transformation`}
+                      afterAlt={`${selectedProject.title} - après transformation`}
+                      className="h-64 md:h-96"
+                    />
+                  ) : (
+                    <BeforeAfterSlider
+                      beforeImage={selectedProject.beforeImage}
+                      afterImage={selectedProject.afterImage}
+                      beforeAlt={`${selectedProject.title} - avant transformation`}
+                      afterAlt={`${selectedProject.title} - après transformation`}
+                      className="h-64 md:h-96"
+                    />
+                  )}
                   <div className="flex justify-center">
                     <Button variant="outline" size="sm" className="text-sm">
                       Voir plus d'images

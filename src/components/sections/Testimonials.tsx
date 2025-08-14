@@ -1,9 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const isMobile = useIsMobile();
 
   const testimonials = [
     {
@@ -80,9 +85,36 @@ export const Testimonials = () => {
         {/* Testimonials Carousel */}
         <div className="max-w-4xl mx-auto mb-16">
           <div className="relative">
-            <Card className="bg-gradient-card border-border shadow-luxury animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <Card 
+              className="bg-gradient-card border-border shadow-luxury animate-fade-in-up select-none" 
+              style={{ animationDelay: '0.4s' }}
+              onTouchStart={isMobile ? (e) => {
+                touchStartX.current = e.touches[0].clientX;
+                setDragX(0);
+                setIsTouching(true);
+              } : undefined}
+              onTouchMove={isMobile ? (e) => {
+                if (touchStartX.current !== null) {
+                  const dx = e.touches[0].clientX - touchStartX.current;
+                  setDragX(dx);
+                }
+              } : undefined}
+              onTouchEnd={isMobile ? () => {
+                if (Math.abs(dragX) > 50) {
+                  dragX < 0 ? nextTestimonial() : prevTestimonial();
+                }
+                setDragX(0);
+                setIsTouching(false);
+                touchStartX.current = null;
+              } : undefined}
+            >
               <CardContent className="p-8 md:p-12">
-                <div className="flex flex-col items-center text-center">
+                <div 
+                  className={`flex flex-col items-center text-center transition-transform duration-200 ${
+                    isTouching ? '' : 'ease-out'
+                  }`}
+                  style={{ transform: dragX ? `translateX(${dragX}px)` : undefined }}
+                >
                   {/* Quote Icon */}
                   <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6">
                     <Quote className="w-8 h-8 text-primary" />
@@ -119,19 +151,23 @@ export const Testimonials = () => {
               </CardContent>
             </Card>
 
-            {/* Navigation Arrows */}
-            <button
-              onClick={prevTestimonial}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 group"
-            >
-              <ChevronLeft className="w-6 h-6 text-primary group-hover:text-white" />
-            </button>
-            <button
-              onClick={nextTestimonial}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 group"
-            >
-              <ChevronRight className="w-6 h-6 text-primary group-hover:text-white" />
-            </button>
+            {/* Navigation Arrows - Hidden on mobile */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={prevTestimonial}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 group"
+                >
+                  <ChevronLeft className="w-6 h-6 text-primary group-hover:text-white" />
+                </button>
+                <button
+                  onClick={nextTestimonial}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-primary/20 hover:bg-primary/30 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300 group"
+                >
+                  <ChevronRight className="w-6 h-6 text-primary group-hover:text-white" />
+                </button>
+              </>
+            )}
           </div>
 
           {/* Testimonial Indicators */}

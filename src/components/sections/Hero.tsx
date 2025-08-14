@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Star, Mountain, Heart } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import heroImage from "@/assets/hero-wedding.jpg";
 interface HeroProps {
   onNavigate: (page: string) => void;
@@ -9,6 +10,8 @@ export const Hero = ({
   onNavigate
 }: HeroProps) => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { ref: heroRef, isVisible } = useScrollReveal({ threshold: 0.1 });
   const heroSlides = [{
     title: "ALTÉZA EVEN'T",
     subtitle: "Créateur d'événements d'exception",
@@ -20,6 +23,12 @@ export const Hero = ({
       setCurrentSlide(prev => (prev + 1) % heroSlides.length);
     }, 8000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    // Trigger loaded animation after component mounts
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
   }, []);
   return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-section-to-muted">
       {/* Enhanced Background with Parallax */}
@@ -51,16 +60,20 @@ export const Hero = ({
           {/* Alpine Badge */}
           
           
-          {/* Main Heading with Luxury Animation */}
+          {/* Main Heading with Enhanced Animation */}
           <h1 className="text-6xl md:text-8xl font-luxury text-white mb-8 leading-tight">
-            <span className="inline-block animate-fade-in-up" style={{
-            animationDelay: '0.4s'
-          }}>
+            <span className={`inline-block transition-all duration-1000 ${
+              isLoaded 
+                ? 'translate-y-0 opacity-100' 
+                : 'translate-y-16 opacity-0'
+            }`} style={{ transitionDelay: '0.4s' }}>
               ALTÉZA
             </span>
-            <span className="block text-primary animate-fade-in-up" style={{
-            animationDelay: '0.6s'
-          }}>
+            <span className={`block text-primary transition-all duration-1000 ${
+              isLoaded 
+                ? 'translate-y-0 opacity-100' 
+                : 'translate-y-16 opacity-0'
+            }`} style={{ transitionDelay: '0.6s' }}>
               EVEN'T
             </span>
           </h1>
@@ -85,26 +98,30 @@ export const Hero = ({
         }}>
             
             
-            <Button onClick={() => onNavigate("portfolio")} variant="outline" size="lg" className="group border-2 border-white/50 text-white hover:bg-white/10 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
+            <Button onClick={() => onNavigate("portfolio")} variant="outline" size="lg" className="group border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
               <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
               Découvrir nos réalisations
             </Button>
           </div>
 
-          {/* Stats Section */}
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto animate-fade-in-up" style={{
-          animationDelay: '1.4s'
-        }}>
-            <div className="text-center group">
-              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 group-hover:scale-110 transition-transform">200+</div>
+          {/* Stats Section with Staggered Animation */}
+          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+            <div className={`text-center group transition-all duration-700 stagger-1 ${
+              isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}>
+              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-1">200+</div>
               <div className="text-sm text-white/70 font-elegant">Événements réalisés</div>
             </div>
-            <div className="text-center group">
-              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 group-hover:scale-110 transition-transform">8</div>
+            <div className={`text-center group transition-all duration-700 stagger-2 ${
+              isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}>
+              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-2">8</div>
               <div className="text-sm text-white/70 font-elegant">Années d'expérience</div>
             </div>
-            <div className="text-center group">
-              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 group-hover:scale-110 transition-transform">98%</div>
+            <div className={`text-center group transition-all duration-700 stagger-3 ${
+              isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+            }`}>
+              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-3">98%</div>
               <div className="text-sm text-white/70 font-elegant">Clients satisfaits</div>
             </div>
           </div>

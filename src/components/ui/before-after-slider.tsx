@@ -2,6 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { ArrowLeftRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -20,8 +21,10 @@ export const BeforeAfterSlider = ({
 }: BeforeAfterSliderProps) => {
   const [pos, setPos] = useState(50);
   const [drag, setDrag] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const isMobile = useIsMobile();
 
   const setPosRaf = useCallback((next: number) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -39,18 +42,59 @@ export const BeforeAfterSlider = ({
     setPosRaf(clamp((x / rect.width) * 100));
   };
 
+  // Gestion des événements pointer pour desktop
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    setDrag(true);
-    e.currentTarget.setPointerCapture?.(e.pointerId);
-    updateFromClientX(e.clientX);
+    if (e.pointerType === 'mouse') {
+      setDrag(true);
+      setIsDragging(true);
+      e.currentTarget.setPointerCapture?.(e.pointerId);
+      updateFromClientX(e.clientX);
+    }
   };
+  
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!drag) return;
+    if (!drag || e.pointerType !== 'mouse') return;
     updateFromClientX(e.clientX);
   };
+  
   const endDrag = (e?: React.PointerEvent<HTMLDivElement>) => {
+    if (e?.pointerType === 'mouse') {
+      setDrag(false);
+      setIsDragging(false);
+      try { e?.currentTarget.releasePointerCapture?.(e.pointerId); } catch {}
+    }
+  };
+
+  // Gestion des événements tactiles pour mobile
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setDrag(true);
+    setIsDragging(true);
+    const touch = e.touches[0];
+    updateFromClientX(touch.clientX);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!drag) return;
+    const touch = e.touches[0];
+    updateFromClientX(touch.clientX);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     setDrag(false);
-    try { e?.currentTarget.releasePointerCapture?.(e.pointerId); } catch {}
+    setIsDragging(false);
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  // Gestion alternative avec les événements de clic/tap pour mobile
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) {
+      updateFromClientX(e.clientX);
+    }
   };
 
   useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
@@ -68,20 +112,28 @@ export const BeforeAfterSlider = ({
       onPointerUp={endDrag}
       onPointerLeave={endDrag}
       onPointerCancel={endDrag}
-      style={{ cursor: drag ? "ew-resize" : "pointer", touchAction: "none" }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchEnd}
+      onClick={handleClick}
+      style={{ 
+        cursor: isDragging ? "ew-resize" : "pointer", 
+        touchAction: "pan-y pinch-zoom",
+        WebkitTouchCallout: "none",
+        WebkitUserSelect: "none",
+        userSelect: "none"
+      }}
     >
-      <input
-        type="range"
-        min={0}
-        max={100}
-        value={pos}
-        onChange={(e) => setPos(Number(e.currentTarget.value))}
-        onInput={(e) => setPos(Number(e.currentTarget.value))}
-        className="absolute inset-0 z-20 opacity-0 w-full h-full"
+      {/* Zone de contrôle invisible pour améliorer l'accessibilité tactile */}
+      <div 
+        className="absolute inset-0 z-10 opacity-0"
+        role="slider"
         aria-label="Faire glisser pour comparer avant/après"
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-valuenow={pos}
+        aria-valuenow={Math.round(pos)}
+        tabIndex={0}
       />
 
       <img
@@ -113,10 +165,18 @@ export const BeforeAfterSlider = ({
         style={{ left: `${pos}%`, transform: "translateX(-0.5px)" }}
       />
       <div
-        className="absolute z-20 w-12 h-12 md:w-10 md:h-10 bg-white rounded-full shadow-lg flex items-center justify-center"
+        className={cn(
+          "absolute z-20 bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200",
+          isMobile ? "w-14 h-14" : "w-10 h-10",
+          isDragging ? "scale-110 shadow-xl" : "hover:scale-105"
+        )}
         style={{ left: `${pos}%`, top: "50%", transform: "translate(-50%,-50%)" }}
       >
-        <ArrowLeftRight className="w-6 h-6 md:w-5 md:h-5 text-primary" />
+        <ArrowLeftRight className={cn(
+          "text-primary transition-all duration-200",
+          isMobile ? "w-7 h-7" : "w-5 h-5",
+          isDragging && "scale-110"
+        )} />
       </div>
 
       <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-elegant backdrop-blur-sm pointer-events-none">
@@ -128,7 +188,7 @@ export const BeforeAfterSlider = ({
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-elegant backdrop-blur-sm pointer-events-none">
         <span className="hidden md:inline">Glissez pour comparer</span>
-        <span className="md:hidden">Faites glisser pour comparer</span>
+        <span className="md:hidden">👆 Glissez pour comparer</span>
       </div>
     </div>
   );

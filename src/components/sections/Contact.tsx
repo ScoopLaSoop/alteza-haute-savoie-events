@@ -3,26 +3,68 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Send, MessageCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ContactModal } from "./ContactModal";
+import { clientService, devisService } from "@/lib/supabase";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
     nom: "",
+    prenom: "",
     email: "",
     telephone: "",
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message envoyé !",
-      description: "Nous vous recontacterons dans les plus brefs délais.",
-    });
-    setFormData({ nom: "", email: "", telephone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      // Créer ou mettre à jour le client
+      const client = await clientService.upsertClient({
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        telephone: formData.telephone
+      });
+
+      if (!client) {
+        throw new Error("Erreur lors de la création du client");
+      }
+
+      // Créer une demande de devis générale pour le contact
+      const demandeDevis = await devisService.createDemandeDevis({
+        client_id: client.id,
+        type_evenement: "Contact général",
+        services_demandes: ["Contact général"],
+        message: formData.message,
+        statut: "nouveau"
+      });
+
+      if (!demandeDevis) {
+        throw new Error("Erreur lors de la création de la demande");
+      }
+
+      toast({
+        title: "Message envoyé avec succès ! ✅",
+        description: "Nous vous recontacterons dans les plus brefs délais.",
+      });
+      
+      setFormData({ nom: "", prenom: "", email: "", telephone: "", message: "" });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi:", error);
+      toast({
+        title: "Erreur lors de l'envoi ❌",
+        description: `Détails: ${error instanceof Error ? error.message : String(error)}`,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,20 +96,37 @@ export const Contact = () => {
                     Décrivez-nous votre projet
                   </h3>
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label htmlFor="nom" className="block text-sm font-elegant text-foreground mb-2">
-                        Nom complet *
-                      </label>
-                      <Input
-                        id="nom"
-                        name="nom"
-                        type="text"
-                        required
-                        value={formData.nom}
-                        onChange={handleInputChange}
-                        className="bg-secondary border-border focus:border-primary"
-                        placeholder="Votre nom et prénom"
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="nom" className="block text-sm font-elegant text-foreground mb-2">
+                          Nom *
+                        </label>
+                        <Input
+                          id="nom"
+                          name="nom"
+                          type="text"
+                          required
+                          value={formData.nom}
+                          onChange={handleInputChange}
+                          className="bg-secondary border-border focus:border-primary"
+                          placeholder="Votre nom"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="prenom" className="block text-sm font-elegant text-foreground mb-2">
+                          Prénom *
+                        </label>
+                        <Input
+                          id="prenom"
+                          name="prenom"
+                          type="text"
+                          required
+                          value={formData.prenom}
+                          onChange={handleInputChange}
+                          className="bg-secondary border-border focus:border-primary"
+                          placeholder="Votre prénom"
+                        />
+                      </div>
                     </div>
                     
                     <div>
@@ -116,16 +175,26 @@ export const Contact = () => {
                       />
                     </div>
                     
-                    <div className="flex gap-3">
+                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
                       <Button 
                         type="submit"
-                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-elegant py-3"
+                        disabled={isSubmitting}
+                        className="w-full sm:w-auto sm:min-w-[200px] bg-primary text-primary-foreground hover:bg-primary/90 font-elegant py-3 disabled:opacity-50"
                       >
-                        <Send className="w-4 h-4 mr-2" />
-                        Envoyer ma demande
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Envoi en cours...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4 mr-2" />
+                            Envoyer ma demande
+                          </>
+                        )}
                       </Button>
                       <ContactModal>
-                        <Button variant="outline" className="font-elegant py-3 px-6">
+                        <Button variant="outline" className="w-full sm:w-auto sm:min-w-[200px] font-elegant py-3 px-6">
                           <MessageCircle className="w-4 h-4 mr-2" />
                           Contact rapide
                         </Button>

@@ -77,6 +77,53 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  .light {
+    /* Light theme - Premium light palette */
+    --background: 0 0% 98%;
+    --foreground: 222 84% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 15%;
+
+    --primary: 43 85% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 84% 15%;
+
+    --muted: 210 40% 94%;
+    --muted-foreground: 215 20.2% 35%;
+
+    --accent: 43 85% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 88%;
+    --input: 214 32% 91%;
+    --ring: 43 85% 45%;
+
+    /* Light theme gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(210 40% 96%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(210 40% 98%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(43 85% 45%) 0%, hsl(43 75% 35%) 100%);
+    
+    /* Light theme transition gradients */
+    --gradient-section-base: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(210 40% 97%) 100%);
+    --gradient-section-to-muted: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(210 40% 94%) 100%);
+    --gradient-muted-to-card: linear-gradient(180deg, hsl(210 40% 94%) 0%, hsl(0 0% 100%) 100%);
+    --gradient-card-to-base: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(0 0% 98%) 100%);
+    --gradient-subtle-fade: linear-gradient(180deg, hsl(0 0% 98%) 0%, hsl(210 40% 96%) 50%, hsl(0 0% 98%) 100%);
+    
+    /* Light theme shadows */
+    --shadow-luxury: 0 25px 50px -12px hsl(222 84% 15% / 0.15);
+    --shadow-gold: 0 10px 30px -10px hsl(43 85% 45% / 0.25);
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -124,4 +171,124 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  @keyframes slideInRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes morphing {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { 
+      box-shadow: 0 0 20px hsl(43 85% 65% / 0.3);
+      transform: scale(1);
+    }
+    50% { 
+      box-shadow: 0 0 40px hsl(43 85% 65% / 0.6);
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    0%, 50% { border-color: transparent; }
+    51%, 100% { border-color: hsl(43 85% 65%); }
+  }
+
+  /* Utility classes for animations */
+  .animate-morphing {
+    animation: morphing 8s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .animate-bounce-in {
+    animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .animate-typewriter {
+    animation: typewriter 3s steps(40, end), blink 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid hsl(43 85% 65%);
+  }
+
+  /* Hover effects */
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-8px);
+  }
+
+  .hover-tilt {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-tilt:hover {
+    transform: perspective(1000px) rotateX(10deg) rotateY(10deg);
+  }
+
+  /* Scroll reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animations */
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
 }
