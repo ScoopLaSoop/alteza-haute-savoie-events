@@ -47,14 +47,4 @@ export default defineConfig(({ mode }) => ({
       'lucide-react',
     ],
   },
-  // Préchargement des modules
-  experimental: {
-    renderBuiltUrl(filename, { hostType }) {
-      if (hostType === 'js') {
-        return { runtime: `window.__prependToUrl(${JSON.stringify(filename)})` };
-      } else {
-        return { relative: true };
-      }
-    },
-  },
 }));
