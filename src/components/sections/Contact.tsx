@@ -75,10 +75,10 @@ export const Contact = () => {
   };
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-luxury text-foreground mb-6">
               Contactez-nous
             </h2>
@@ -87,15 +87,15 @@ export const Contact = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
             {/* Contact Form */}
-            <div>
-              <Card className="bg-gradient-card border-border">
-                <CardContent className="p-8">
+            <div className="flex justify-center">
+              <Card className="bg-gradient-card border-border shadow-luxury w-full max-w-lg flex flex-col">
+                <CardContent className="p-8 flex-1 flex flex-col">
                   <h3 className="text-2xl font-luxury text-foreground mb-6">
                     Décrivez-nous votre projet
                   </h3>
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="nom" className="block text-sm font-elegant text-foreground mb-2">
@@ -175,27 +175,33 @@ export const Contact = () => {
                       />
                     </div>
                     
-                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-center">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-6 justify-center items-center mt-auto">
                       <Button 
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full sm:w-auto sm:min-w-[200px] bg-primary text-primary-foreground hover:bg-primary/90 font-elegant py-3 disabled:opacity-50"
+                        variant="outline"
+                        size="lg"
+                        className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 py-3 text-sm backdrop-blur-sm transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none w-full max-w-[200px] text-center"
                       >
                         {isSubmitting ? (
                           <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            <Loader2 className="w-4 h-4 mr-1 animate-spin" />
                             Envoi en cours...
                           </>
                         ) : (
                           <>
-                            <Send className="w-4 h-4 mr-2" />
+                            <Send className="w-4 h-4 mr-1 group-hover:scale-110 transition-transform" />
                             Envoyer ma demande
                           </>
                         )}
                       </Button>
                       <ContactModal>
-                        <Button variant="outline" className="w-full sm:w-auto sm:min-w-[200px] font-elegant py-3 px-6">
-                          <MessageCircle className="w-4 h-4 mr-2" />
+                        <Button 
+                          variant="default" 
+                          size="lg"
+                          className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 py-3 text-sm transform hover:scale-105 transition-all duration-300 w-full max-w-[200px] text-center"
+                        >
+                          <MessageCircle className="w-4 h-4 mr-1" />
                           Contact rapide
                         </Button>
                       </ContactModal>
@@ -206,68 +212,68 @@ export const Contact = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-luxury text-foreground mb-6">
-                  Restons en contact
-                </h3>
-                <p className="text-muted-foreground font-elegant mb-8 leading-relaxed">
-                  Notre équipe est à votre disposition pour répondre à toutes vos questions 
-                  et vous accompagner dans la réalisation de votre événement d'exception.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <Card className="bg-gradient-card border-border hover:shadow-gold transition-all duration-300">
-                  <CardContent className="p-6 flex items-center">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
-                      <Phone className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-luxury text-foreground mb-1">Téléphone</h4>
-                      <a href="tel:+33450123456" className="text-muted-foreground hover:text-primary transition-colors font-elegant">
-                        +33 4 50 12 34 56
-                      </a>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-card border-border hover:shadow-gold transition-all duration-300">
-                  <CardContent className="p-6 flex items-center">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
-                      <Mail className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-luxury text-foreground mb-1">E-mail</h4>
-                      <a href="mailto:contact@alteza-event.fr" className="text-muted-foreground hover:text-primary transition-colors font-elegant">
-                        contact@alteza-event.fr
-                      </a>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-card border-border hover:shadow-gold transition-all duration-300">
-                  <CardContent className="p-6 flex items-center">
-                    <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
-                      <MapPin className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-luxury text-foreground mb-1">Zone d'intervention</h4>
-                      <p className="text-muted-foreground font-elegant">
-                        Haute-Savoie et régions limitrophes
+            <div className="flex justify-center">
+              <Card className="bg-gradient-card border-border shadow-luxury w-full max-w-lg flex flex-col">
+                <CardContent className="p-8 flex-1 flex flex-col">
+                  <div className="space-y-6 w-full">
+                    <div className="text-center lg:text-left">
+                      <h3 className="text-2xl font-luxury text-foreground mb-4">
+                        Restons en contact
+                      </h3>
+                      <p className="text-muted-foreground font-elegant mb-6 leading-relaxed">
+                        Notre équipe est à votre disposition pour répondre à toutes vos questions 
+                        et vous accompagner dans la réalisation de votre événement d'exception.
                       </p>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
 
-              <div className="bg-gradient-card border border-border rounded-lg p-6">
-                <h4 className="font-luxury text-foreground mb-4">Réponse rapide garantie</h4>
-                <p className="text-sm text-muted-foreground font-elegant leading-relaxed">
-                  Nous nous engageons à vous répondre dans les 24 heures suivant la réception 
-                  de votre demande. Pour les urgences, n'hésitez pas à nous appeler directement.
-                </p>
-              </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center p-4 bg-secondary/20 rounded-lg">
+                        <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                          <Phone className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-luxury text-foreground mb-1">Téléphone</h4>
+                          <a href="tel:+33673437054" className="text-muted-foreground hover:text-primary transition-colors font-elegant">
+                            +33 6 73 43 70 54
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center p-4 bg-secondary/20 rounded-lg">
+                        <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                          <Mail className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-luxury text-foreground mb-1">E-mail</h4>
+                          <a href="mailto:contact@altezaevent.com" className="text-muted-foreground hover:text-primary transition-colors font-elegant">
+                            contact@altezaevent.com
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center p-4 bg-secondary/20 rounded-lg">
+                        <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                          <MapPin className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-luxury text-foreground mb-1">Zone d'intervention</h4>
+                          <p className="text-muted-foreground font-elegant">
+                            Haute-Savoie et régions limitrophes
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                      <h4 className="font-luxury text-foreground mb-3">Réponse rapide garantie</h4>
+                      <p className="text-sm text-muted-foreground font-elegant leading-relaxed">
+                        Nous nous engageons à vous répondre dans les 24 heures suivant la réception 
+                        de votre demande. Pour les urgences, n'hésitez pas à nous appeler directement.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

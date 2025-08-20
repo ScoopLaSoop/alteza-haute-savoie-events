@@ -73,9 +73,29 @@ export const preloadCriticalImages = async () => {
     '/src/assets/service-anniversaire.jpg'
   ];
 
+  // Only preload on fast connections and when not on mobile data
+  const connection = (navigator as any).connection;
+  const isSlowConnection = connection && 
+    (['slow-2g', '2g'].includes(connection.effectiveType) || connection.saveData);
+  
+  if (isSlowConnection) {
+    console.log('Skipping image preload on slow connection');
+    return;
+  }
+
   try {
-    await imagePreloader.preloadMultiple(criticalImages, { priority: true });
-    console.log('Critical images preloaded successfully');
+    // Use requestIdleCallback for better performance
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        imagePreloader.preloadMultiple(criticalImages, { priority: true });
+      });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(() => {
+        imagePreloader.preloadMultiple(criticalImages, { priority: true });
+      }, 100);
+    }
+    console.log('Critical images preload initiated');
   } catch (error) {
     console.warn('Some critical images failed to preload:', error);
   }
@@ -86,14 +106,53 @@ export const intelligentPreload = () => {
   const connection = (navigator as any).connection;
   const isFastConnection = !connection || 
     !['slow-2g', '2g', '3g'].includes(connection.effectiveType);
+  const isOnline = navigator.onLine;
+  const hasLowMemory = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4;
 
-  if (isFastConnection) {
-    // Preload more images on fast connections
+  if (isFastConnection && isOnline && !hasLowMemory) {
+    // Preload more images on fast connections with good hardware
     const additionalImages = [
       '/src/assets/service-evjf.jpg',
       '/src/assets/service-corporate.jpg'
     ];
     
-    imagePreloader.preloadMultiple(additionalImages);
+    // Use Intersection Observer to preload images when they're likely to be needed
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            imagePreloader.preloadMultiple(additionalImages);
+            observer.disconnect();
+          }
+        });
+      }, { rootMargin: '100px' });
+      
+      // Start observing when user scrolls down
+      const heroSection = document.querySelector('[data-section="hero"]');
+      if (heroSection) {
+        observer.observe(heroSection);
+      }
+    } else {
+      // Fallback for older browsers
+      setTimeout(() => {
+        imagePreloader.preloadMultiple(additionalImages);
+      }, 3000);
+    }
+  }
+};
+
+// Add performance monitoring
+export const reportWebVitals = (onPerfEntry?: (metric: any) => void) => {
+  if (onPerfEntry && typeof onPerfEntry === 'function') {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    }).catch(() => {
+      // Graceful fallback if web-vitals is not available
+      console.log('Web Vitals not available');
+    });
   }
 };

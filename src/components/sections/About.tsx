@@ -8,35 +8,41 @@ interface AboutProps {
 
 export const About = ({ onNavigate }: AboutProps) => {
   return (
-    <section className="py-12 px-4 bg-gradient-muted-to-card">
+    <section className="py-8 px-4 bg-gradient-muted-to-card">
       <div className="container mx-auto max-w-6xl">
         {/* Brève section "Qui sommes-nous" - Version épurée pour la home */}
-        <div className="text-center mb-12 space-y-8">
+        <div className="text-center mb-6 space-y-6">
           <h2 className="text-4xl md:text-5xl font-luxury text-foreground mb-8">
             Qui sommes-nous ?
           </h2>
           <div className="max-w-3xl mx-auto space-y-6">
             <p className="text-xl text-muted-foreground font-elegant leading-relaxed">
-              ALTÉZA EVEN'T est votre agence événementielle de prestige en Haute-Savoie. 
-              Nous orchestrons vos moments les plus précieux avec élégance et créativité.
+              ALTÉZA EVEN'T est votre agence événementielle de prestige, fondée par un passionné de longue date. 
+              Nous créons des événements sur mesure portés par une expertise professionnelle acquise au sein des plus grands palaces de la Côte d'Azur et de Genève.
             </p>
             <p className="text-lg text-muted-foreground/80 font-elegant leading-relaxed">
-              Des sommets enneigés aux rives du lac d'Annecy, nous transformons vos rêves en réalité 
-              grâce à notre expertise locale et notre passion pour l'excellence.
+              Depuis toujours, transformer une idée en réalité est bien plus qu'un métier : c'est une vocation. 
+              Grâce à un savoir-faire exigeant, une attention aux détails et une approche personnalisée, nous faisons de chaque événement un moment d'exception.
             </p>
           </div>
           
-          {/* CTA vers la page À propos pour plus de détails */}
-          <div className="pt-8">
-            <Button 
-              onClick={() => onNavigate("apropos")}
-              variant="outline"
-              size="lg"
-              className="group hover:bg-primary/5 hover:border-primary/50"
-            >
-              <Users className="w-5 h-5 mr-3 group-hover:text-primary transition-colors" />
-              En savoir plus sur notre équipe
-            </Button>
+          {/* Section intégrée pour en savoir plus */}
+          <div className="mt-6 mb-8 flex justify-center">
+            <div className="bg-gradient-to-r from-white/5 to-primary/10 border border-white/20 rounded-xl p-6 max-w-md">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-lg font-elegant text-foreground">
+                    En savoir plus sur notre équipe
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Découvrez notre passion et notre expertise
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

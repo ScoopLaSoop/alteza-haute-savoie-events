@@ -15,7 +15,7 @@ export const Hero = ({
   const heroSlides = [{
     title: "ALTÉZA EVEN'T",
     subtitle: "Créateur d'événements d'exception",
-    description: "Depuis les sommets enneigés aux rives du lac d'Annecy, nous orchestrons vos moments les plus précieux avec élégance et créativité.",
+    description: "Expertise acquise dans les plus grands palaces de la Côte d'Azur et de Genève. Nous transformons vos idées en réalités d'exception avec un savoir-faire exigeant et une attention aux détails.",
     image: heroImage
   }];
   useEffect(() => {
@@ -30,7 +30,11 @@ export const Hero = ({
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
-  return <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-section-to-muted">
+  return <section 
+    className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-section-to-muted" 
+    data-section="hero"
+    aria-label="Section principale - Présentation d'ALTÉZA EVEN'T"
+  >
       {/* Enhanced Background with Parallax */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-110 transition-all duration-[8000ms] ease-in-out" style={{
@@ -98,7 +102,7 @@ export const Hero = ({
         }}>
             
             
-            <Button onClick={() => onNavigate("portfolio")} variant="outline" size="lg" className="group border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
+            <Button onClick={() => onNavigate("portfolio")} variant="outline" size="lg" className="group border-2 border-primary/60 dark:border-white/50 text-white bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300">
               <Play className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
               Découvrir nos réalisations
             </Button>
@@ -109,13 +113,13 @@ export const Hero = ({
             <div className={`text-center group transition-all duration-700 stagger-1 ${
               isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
-              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-1">200+</div>
+              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-1">140+</div>
               <div className="text-sm text-white/70 font-elegant">Événements réalisés</div>
             </div>
             <div className={`text-center group transition-all duration-700 stagger-2 ${
               isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
-              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-2">8</div>
+              <div className="text-3xl md:text-4xl font-luxury text-primary mb-2 hover-lift animate-bounce-in stagger-2">4</div>
               <div className="text-sm text-white/70 font-elegant">Années d'expérience</div>
             </div>
             <div className={`text-center group transition-all duration-700 stagger-3 ${

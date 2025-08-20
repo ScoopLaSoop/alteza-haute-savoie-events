@@ -185,7 +185,9 @@ export const FloatingContact = ({ onNavigateToContact }: FloatingContactProps) =
                   <Button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground disabled:opacity-50"
+                    variant="outline"
+                    size="lg"
+                    className="group flex-1 border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
                   >
                     {isSubmitting ? (
                       <>
@@ -194,7 +196,7 @@ export const FloatingContact = ({ onNavigateToContact }: FloatingContactProps) =
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4 mr-2" />
+                        <Send className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Envoyer
                       </>
                     )}
@@ -212,7 +214,7 @@ export const FloatingContact = ({ onNavigateToContact }: FloatingContactProps) =
                     variant="outline"
                     size="sm"
                     className="flex-1 hover:bg-primary/5"
-                    onClick={() => window.open('tel:+33450123456')}
+                    onClick={() => window.open('tel:+33673437054')}
                   >
                     <Phone className="w-4 h-4 mr-2" />
                     Appeler
@@ -221,7 +223,7 @@ export const FloatingContact = ({ onNavigateToContact }: FloatingContactProps) =
                     variant="outline"
                     size="sm"
                     className="flex-1 hover:bg-primary/5"
-                    onClick={() => window.open('mailto:contact@alteza-event.fr')}
+                    onClick={() => window.open('mailto:contact@altezaevent.com')}
                   >
                     <Mail className="w-4 h-4 mr-2" />
                     Email

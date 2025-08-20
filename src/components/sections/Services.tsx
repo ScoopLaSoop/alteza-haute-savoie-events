@@ -14,7 +14,7 @@ export const Services = ({ onNavigate }: ServicesProps) => {
   const services = [
     {
       title: "Mariages",
-      description: "Organisation de mariages sur-mesure, du design de la cérémonie à la coordination du jour J. Créez un mariage à votre image avec une attention particulière à chaque détail.",
+      description: "Organisation de mariages d'exception sur-mesure, du design de la cérémonie à la coordination du jour J. Créez un mariage à votre image avec l'expertise des plus grands palaces et une attention particulière à chaque détail.",
       icon: Heart,
       image: mariageImg,
       highlights: ["Scénographie personnalisée", "Coordination jour J", "Gestion des prestataires"]
@@ -35,14 +35,14 @@ export const Services = ({ onNavigate }: ServicesProps) => {
     },
     {
       title: "Événements d'entreprise",
-      description: "Organisation professionnelle de séminaires, galas, team-building et soirées d'entreprise. Alliant créativité et exigence pour refléter l'image de votre entreprise.",
+      description: "Organisation professionnelle de séminaires, galas, team-building et soirées d'entreprise. Alliant créativité et exigence avec l'expertise des palaces pour refléter l'image de votre entreprise.",
       icon: Building,
       image: corporateImg,
       highlights: ["Séminaires", "Galas", "Team-building"]
     },
     {
       title: "Bar (cocktails & softs)",
-      description: "Service de bar complet avec barmen professionnels, cocktails créatifs et boissons sans alcool. Équipement moderne et service en tenue pour tous vos événements.",
+      description: "Service de bar d'exception avec barmen professionnels formés aux standards des palaces, cocktails créatifs et boissons sans alcool. Équipement moderne et service en tenue pour tous vos événements.",
       icon: Wine,
       image: corporateImg, // Temporary image
       highlights: ["Barmen/mixologues", "Cocktails personnalisés", "Service en tenue"]
@@ -57,7 +57,7 @@ export const Services = ({ onNavigate }: ServicesProps) => {
             Nos Services
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto font-elegant">
-            ALTÉZA EVEN'T couvre une large gamme d'événements, chacun conçu avec passion et professionnalisme pour créer des moments inoubliables.
+            ALTÉZA EVEN'T couvre une large gamme d'événements, chacun conçu avec l'expertise des plus grands palaces et une approche personnalisée pour créer des moments d'exception.
           </p>
         </div>
 
@@ -101,9 +101,9 @@ export const Services = ({ onNavigate }: ServicesProps) => {
         <div className="text-center">
           <Button 
             onClick={() => onNavigate("contact")}
-            variant="default"
+            variant="outline"
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-8 py-4"
+            className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
           >
             Demander un devis personnalisé
           </Button>

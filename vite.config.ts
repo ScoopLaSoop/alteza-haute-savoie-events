@@ -19,4 +19,42 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Optimisations de build
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Séparer les vendors pour un meilleur caching
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-accordion', '@radix-ui/react-tabs'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+    // Compression et optimisations
+    minify: 'esbuild',
+    cssMinify: true,
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1000,
+  },
+  // Optimisations de dépendances
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@tanstack/react-query',
+      'lucide-react',
+    ],
+  },
+  // Préchargement des modules
+  experimental: {
+    renderBuiltUrl(filename, { hostType }) {
+      if (hostType === 'js') {
+        return { runtime: `window.__prependToUrl(${JSON.stringify(filename)})` };
+      } else {
+        return { relative: true };
+      }
+    },
+  },
 }));

@@ -17,6 +17,9 @@ import { Contact } from "@/components/sections/Contact";
 import { ContactModal } from "@/components/sections/ContactModal";
 import { FloatingContact } from "@/components/ui/floating-contact";
 import { SupabaseDiagnostic } from "@/components/ui/supabase-diagnostic";
+import { MentionsLegales } from "@/pages/MentionsLegales";
+import { CGV } from "@/pages/CGV";
+import { PolitiqueConfidentialite } from "@/pages/PolitiqueConfidentialite";
 import { preloadCriticalImages, intelligentPreload } from "@/utils/image-preloader";
 const Index = () => {
   const [currentPage, setCurrentPage] = useState("accueil");
@@ -58,7 +61,7 @@ const Index = () => {
         return <>
             <About onNavigate={handleNavigate} />
             <Timeline />
-            <Team />
+            <Team onNavigate={handleNavigate} />
           </>;
       case "contact":
         return <Contact />;
@@ -68,6 +71,12 @@ const Index = () => {
         return <FAQ />;
       case "diagnostic":
         return <div className="py-20"><SupabaseDiagnostic /></div>;
+      case "mentions-legales":
+        return <MentionsLegales onNavigate={handleNavigate} />;
+      case "cgv":
+        return <CGV onNavigate={handleNavigate} />;
+      case "politique-confidentialite":
+        return <PolitiqueConfidentialite onNavigate={handleNavigate} />;
       default:
         // Page d'accueil épurée selon le plan
         return <>
@@ -88,7 +97,7 @@ const Index = () => {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-4 sm:px-6">Demander un devis</Button>
-                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-foreground/20 hover:bg-foreground/5">
+                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-primary/60 dark:border-foreground/20 bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-foreground/5 hover:border-primary/80 dark:hover:border-foreground/30 hover:text-primary dark:hover:text-primary transition-all duration-300">
                       Découvrir nos réalisations
                     </Button>
                   </div>

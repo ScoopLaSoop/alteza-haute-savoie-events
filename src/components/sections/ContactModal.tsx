@@ -177,7 +177,9 @@ export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) =
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="w-full bg-primary text-primary-foreground disabled:opacity-50"
+                    variant="outline"
+                    size="lg"
+                    className="group w-full border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:transform-none"
                   >
                     {isSubmitting ? (
                       <>
@@ -186,7 +188,7 @@ export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) =
                       </>
                     ) : (
                       <>
-                        <Send className="w-4 h-4 mr-2" />
+                        <Send className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Envoyer le message
                       </>
                     )}
@@ -206,7 +208,7 @@ export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) =
                     <div className="flex items-center">
                       <Phone className="w-5 h-5 text-primary mr-3" />
                       <div>
-                        <p className="font-elegant text-foreground">+33 6 12 34 56 78</p>
+                        <p className="font-elegant text-foreground">+33 6 73 43 70 54</p>
                         <p className="text-xs text-muted-foreground">Lun-Ven 9h-18h</p>
                       </div>
                     </div>
@@ -218,7 +220,7 @@ export const ContactModal = ({ isOpen, onClose, children }: ContactModalProps) =
                     <div className="flex items-center">
                       <Mail className="w-5 h-5 text-primary mr-3" />
                       <div>
-                        <p className="font-elegant text-foreground">contact@wedding-planner.fr</p>
+                        <p className="font-elegant text-foreground">contact@altezaevent.com</p>
                         <p className="text-xs text-muted-foreground">Réponse sous 24h</p>
                       </div>
                     </div>

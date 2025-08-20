@@ -51,7 +51,11 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <nav 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        role="navigation"
+        aria-label="Navigation principale"
+        data-testid="main-navigation"
         isScrolled 
           ? 'bg-background/98 backdrop-blur-md border-b border-border shadow-luxury' 
           : 'bg-background/95 backdrop-blur-sm border-b border-border'
@@ -86,8 +90,9 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
             {/* CTA Button in Header */}
             <Button
               onClick={() => handleNavigate("contact")}
+              variant="outline"
               size="sm"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground ml-4 hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform"
+              className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 py-2 text-sm backdrop-blur-sm transform hover:scale-105 transition-all duration-300 ml-4"
             >
               Demander un devis
             </Button>
@@ -176,7 +181,9 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
               <div className="space-y-4">
                 <Button
                   onClick={() => handleNavigate("contact")}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-elegant"
+                  variant="outline"
+                  size="lg"
+                  className="group w-full border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
                 >
                   Demander un devis
                 </Button>
@@ -184,7 +191,7 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <div className="flex items-center justify-center">
                     <Mail className="w-4 h-4 mr-2 text-primary" />
-                    <span>contact@alteza-event.fr</span>
+                    <span>contact@altezaevent.com</span>
                   </div>
                 </div>
               </div>

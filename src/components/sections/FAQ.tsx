@@ -135,12 +135,10 @@ export const FAQ = () => {
           </div>
 
           {/* Additional Resources */}
-          <div className="grid md:grid-cols-2 gap-6 animate-fade-in-up" style={{
+          <div className="flex justify-center animate-fade-in-up" style={{
           animationDelay: '1s'
         }}>
-            
-
-            <Card className="bg-gradient-card border-border shadow-luxury">
+            <Card className="bg-gradient-card border-border shadow-luxury max-w-md">
               <CardContent className="p-6 text-center">
                 <Phone className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-xl font-luxury text-foreground mb-3">
@@ -149,7 +147,12 @@ export const FAQ = () => {
                 <p className="text-muted-foreground font-elegant mb-4 text-sm">
                   Votre question n'est pas listée ? Contactez-nous pour un échange personnalisé de 30 minutes.
                 </p>
-                <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Button 
+                  onClick={() => onNavigate("contact")}
+                  variant="outline"
+                  size="lg"
+                  className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                >
                   Prendre rendez-vous
                 </Button>
               </CardContent>

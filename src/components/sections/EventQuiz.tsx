@@ -285,13 +285,30 @@ export const EventQuiz = () => {
                     </div>
 
                     <div className="flex gap-4 justify-center pt-4">
-                      <Button onClick={resetQuiz} variant="outline">
-                        <RotateCcw className="w-4 h-4 mr-2" />
+                      <Button 
+                        onClick={resetQuiz} 
+                        variant="outline"
+                        size="lg"
+                        className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                      >
+                        <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Recommencer
                       </Button>
                       <Button 
-                        className="bg-primary text-primary-foreground"
-                        onClick={() => setShowForm(true)}
+                        variant="default"
+                        size="lg"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowForm(true);
+                          // Scroll vers le formulaire de manière fluide
+                          setTimeout(() => {
+                            const formElement = document.querySelector('[data-form-section]');
+                            if (formElement) {
+                              formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                          }, 100);
+                        }}
                       >
                         Demander un devis
                       </Button>
@@ -305,7 +322,7 @@ export const EventQuiz = () => {
 
         {/* Form Modal */}
         {showForm && !showThanks && (
-          <Card className="bg-gradient-card border-border shadow-luxury max-w-2xl mx-auto mt-8 animate-scale-in">
+          <Card className="bg-gradient-card border-border shadow-luxury max-w-2xl mx-auto mt-8 animate-scale-in" data-form-section>
             <CardContent className="p-8">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-luxury text-foreground mb-2">
@@ -420,7 +437,9 @@ export const EventQuiz = () => {
                 <div className="flex gap-4 justify-center pt-4">
                   <Button 
                     type="button" 
-                    variant="outline" 
+                    variant="outline"
+                    size="lg"
+                    className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
                     onClick={() => setShowForm(false)}
                   >
                     Annuler
@@ -428,7 +447,9 @@ export const EventQuiz = () => {
                   <Button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="bg-primary text-primary-foreground min-w-[200px] disabled:opacity-50"
+                    variant="default"
+                    size="lg"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300 min-w-[200px] disabled:opacity-50 disabled:transform-none"
                   >
                     {isSubmitting ? (
                       <>
@@ -466,7 +487,9 @@ export const EventQuiz = () => {
               
               <div className="space-y-4">
                 <Button 
-                  className="bg-primary text-primary-foreground min-w-[250px]"
+                  variant="default"
+                  size="lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300 min-w-[250px]"
                   onClick={() => window.open('https://calendly.com', '_blank')}
                 >
                   <Calendar className="w-4 h-4 mr-2" />
@@ -475,11 +498,12 @@ export const EventQuiz = () => {
                 
                 <div>
                   <Button 
-                    variant="outline" 
+                    variant="outline"
+                    size="lg"
+                    className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-w-[200px]"
                     onClick={resetQuiz}
-                    className="min-w-[200px]"
                   >
-                    <RotateCcw className="w-4 h-4 mr-2" />
+                    <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                     Nouveau quiz
                   </Button>
                 </div>

@@ -25,7 +25,12 @@ export const Footer = ({
               <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
                 <Facebook className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-muted-foreground hover:text-primary"
+                onClick={() => window.open('https://www.instagram.com/thomas__brc_?igsh=MWtxYzNxemYxZDA3bg==', '_blank')}
+              >
                 <Instagram className="w-5 h-5" />
               </Button>
             </div>
@@ -66,11 +71,11 @@ export const Footer = ({
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Phone className="w-5 h-5 text-primary" />
-                <span className="font-elegant">+33 6 XX XX XX XX</span>
+                <span className="font-elegant">+33 6 73 43 70 54</span>
               </div>
               <div className="flex items-center space-x-3 text-muted-foreground">
                 <Mail className="w-5 h-5 text-primary" />
-                <span className="font-elegant">contact@alteza-event.fr</span>
+                <span className="font-elegant">contact@altezaevent.com</span>
               </div>
             </div>
           </div>
@@ -81,13 +86,22 @@ export const Footer = ({
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p className="font-elegant">© 2024 ALTÉZA EVEN'T. Tous droits réservés.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <button className="hover:text-primary transition-colors font-elegant">
+            <button 
+              className="hover:text-primary transition-colors font-elegant"
+              onClick={() => onNavigate('mentions-legales')}
+            >
               Mentions légales
             </button>
-            <button className="hover:text-primary transition-colors font-elegant">
+            <button 
+              className="hover:text-primary transition-colors font-elegant"
+              onClick={() => onNavigate('cgv')}
+            >
               CGV
             </button>
-            <button className="hover:text-primary transition-colors font-elegant">
+            <button 
+              className="hover:text-primary transition-colors font-elegant"
+              onClick={() => onNavigate('politique-confidentialite')}
+            >
               Politique de confidentialité
             </button>
           </div>

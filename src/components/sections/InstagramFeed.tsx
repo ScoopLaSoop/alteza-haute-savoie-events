@@ -219,8 +219,12 @@ export const InstagramFeed = () => {
             <p className="text-muted-foreground font-elegant mb-4">
               Rejoignez notre communauté et ne ratez aucune de nos créations
             </p>
-            <Button className="bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90 font-elegant px-8 py-4">
-              <Instagram className="w-5 h-5 mr-2" />
+            <Button 
+              variant="outline"
+              size="lg"
+              className="group border-2 border-white/50 dark:text-white text-foreground hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+            >
+              <Instagram className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
               Suivre sur Instagram
             </Button>
           </div>

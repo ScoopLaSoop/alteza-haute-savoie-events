@@ -1,8 +1,25 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://altezaevent.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Block admin and private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+
+# Allow important crawlers
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +27,15 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Social media crawlers for rich previews
+User-agent: Applebot
+Allow: /
+
+User-agent: Slackbot
 Allow: /

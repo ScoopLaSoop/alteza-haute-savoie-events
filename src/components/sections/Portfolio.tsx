@@ -215,8 +215,8 @@ export const Portfolio = () => {
 
                 {/* Enhanced Content Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
-                  <div className="max-w-4xl grid md:grid-cols-3 gap-4 md:gap-6">
-                    <div className="md:col-span-2">
+                  <div className="max-w-4xl grid md:grid-cols-2 gap-4 md:gap-8 items-end">
+                    <div>
                       <div className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-elegant inline-block mb-3 backdrop-blur-sm">
                         {portfolioItems[currentIndex].category}
                       </div>
@@ -235,7 +235,7 @@ export const Portfolio = () => {
                       </div>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-4">
                       <div className="flex items-center text-sm text-white/80">
                         <MapPin className="w-4 h-4 mr-2" />
                         {portfolioItems[currentIndex].location}
@@ -252,9 +252,9 @@ export const Portfolio = () => {
                         onClick={() => openLightbox(portfolioItems[currentIndex])}
                         variant="outline"
                         size="sm"
-                        className="mt-2 md:mt-4 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                        className="group border-2 border-primary/60 dark:border-white/50 text-white bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
                       >
-                        <Eye className="w-4 h-4 mr-2" />
+                        <Eye className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Voir les détails
                       </Button>
                     </div>
@@ -445,7 +445,11 @@ export const Portfolio = () => {
                     />
                   )}
                   <div className="flex justify-center">
-                    <Button variant="outline" size="sm" className="text-sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="group border-2 border-primary/60 dark:border-white/50 text-foreground dark:text-white bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                    >
                       Voir plus d'images
                     </Button>
                   </div>
@@ -487,16 +491,18 @@ export const Portfolio = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              variant="default"
+              onClick={() => onNavigate("contact")}
+              variant="outline"
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-8 py-4"
+              className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
             >
               Discuter de votre projet
             </Button>
             <Button 
-              variant="outline"
+              onClick={() => window.open('https://www.instagram.com/thomas__brc_?igsh=MWtxYzNxemYxZHA3bg==', '_blank')}
+              variant="default"
               size="lg"
-              className="border-primary/30 text-primary hover:bg-primary/10 font-elegant px-8 py-4"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300"
             >
               <Play className="w-5 h-5 mr-2" />
               Voir nos vidéos

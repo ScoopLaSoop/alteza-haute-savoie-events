@@ -3,37 +3,35 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, Award, Calendar, MessageCircle, Instagram, Linkedin } from "lucide-react";
 
-export const Team = () => {
+interface TeamProps {
+  onNavigate?: (page: string) => void;
+}
+
+export const Team = ({ onNavigate }: TeamProps) => {
   const teamMembers = [
     {
       id: 1,
-      name: "Sophie Dubois",
-      role: "Fondatrice & Wedding Planner",
-      specialities: ["Mariages de prestige", "Coordination jour J", "Décoration"],
-      experience: "8 ans",
-      image: "👩‍💼",
-      description: "Passionnée par la création d'événements uniques, Sophie transforme vos rêves en réalité avec un souci du détail incomparable.",
-      events: 120
+      name: "Thomas Briche",
+      role: "Créateur & Gestionnaire",
+      specialities: ["Bar man", "Événements", "Gestion d'entreprise"],
+      experience: "4 ans",
+      image: "🍸",
+      description: "Créateur passionné du projet ALTÉZA EVEN'T, Thomas s'occupe de la gestion globale de l'entreprise, du recrutement et de l'organisation des événements. Son expertise en bar et sa vision entrepreneuriale font de chaque événement une expérience unique.",
+      events: 80,
+      instagram: "https://www.instagram.com/thomas__brc_?igsh=MWtxYzNxemYxZHA3bg==",
+      linkedin: null
     },
     {
       id: 2,
-      name: "Marie Lenoir",
-      role: "Event Manager Corporate",
-      specialities: ["Événements d'entreprise", "Séminaires", "Galas"],
-      experience: "6 ans",
-      image: "👩‍💻",
-      description: "Experte en événementiel corporate, Marie orchestre des événements professionnels marquants et impactants.",
-      events: 85
-    },
-    {
-      id: 3,
-      name: "Julie Martin",
-      role: "Créatrice & Décoratrice",
-      specialities: ["Design floral", "Scénographie", "Tendances"],
-      experience: "5 ans",
-      image: "🎨",
-      description: "Artiste dans l'âme, Julie crée des ambiances magiques et des décors sur-mesure qui émerveilleront vos invités.",
-      events: 95
+      name: "Lucas Provenzano",
+      role: "Développeur & Gestionnaire Digital",
+      specialities: ["Développement web", "Plateforme digitale", "Technologie"],
+      experience: "3 ans",
+      image: "💻",
+      description: "Expert en développement web et gestion de plateformes digitales, Lucas s'occupe de tout l'aspect technologique d'ALTÉZA EVEN'T. Il assure la création et la maintenance du site web pour offrir une expérience digitale exceptionnelle.",
+      events: null,
+      instagram: "https://www.instagram.com/provenzano.lucas/?igsh=MWtxYzNxemYxZHA3bg%3D%3D#",
+      linkedin: "https://www.linkedin.com/in/lucas-provenzano-a838212b6/"
     }
   ];
 
@@ -48,7 +46,7 @@ export const Team = () => {
           </div>
           
           <h2 className="text-4xl md:text-5xl font-luxury text-foreground mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Les artisanes de vos événements
+            L'équipe de vos événements
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto font-elegant animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             Une équipe passionnée et expérimentée, dédiée à la création d'événements exceptionnels qui marquent les esprits
@@ -56,7 +54,7 @@ export const Team = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
           {teamMembers.map((member, index) => (
             <Card 
               key={member.id} 
@@ -65,8 +63,24 @@ export const Team = () => {
             >
               <CardContent className="p-8 text-center">
                 {/* Avatar */}
-                <div className="w-24 h-24 bg-gradient-accent rounded-full flex items-center justify-center mx-auto mb-6 text-4xl group-hover:scale-110 transition-transform duration-300">
-                  {member.image}
+                <div className="w-24 h-24 bg-gradient-accent rounded-full flex items-center justify-center mx-auto mb-6 overflow-hidden group-hover:scale-110 transition-transform duration-300">
+                  {member.image.startsWith('/') ? (
+                    <img 
+                      src={member.image} 
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-full"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (nextElement) {
+                          nextElement.style.display = 'flex';
+                        }
+                      }}
+                    />
+                  ) : null}
+                  <div className={`w-full h-full bg-gradient-accent rounded-full flex items-center justify-center text-4xl ${member.image.startsWith('/') ? 'hidden' : ''}`}>
+                    {member.image.startsWith('/') ? member.name.charAt(0) : member.image}
+                  </div>
                 </div>
 
                 {/* Info */}
@@ -85,7 +99,7 @@ export const Team = () => {
                   </p>
 
                   {/* Stats */}
-                  <div className="grid grid-cols-2 gap-4 py-4">
+                  <div className={`grid ${member.events ? 'grid-cols-2' : 'grid-cols-1'} gap-4 py-4`}>
                     <div className="text-center">
                       <div className="flex items-center justify-center mb-1">
                         <Calendar className="w-4 h-4 text-primary mr-1" />
@@ -93,13 +107,15 @@ export const Team = () => {
                       </div>
                       <span className="text-xs text-muted-foreground">d'expérience</span>
                     </div>
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-1">
-                        <Award className="w-4 h-4 text-primary mr-1" />
-                        <span className="text-lg font-luxury text-primary">{member.events}</span>
+                    {member.events && (
+                      <div className="text-center">
+                        <div className="flex items-center justify-center mb-1">
+                          <Award className="w-4 h-4 text-primary mr-1" />
+                          <span className="text-lg font-luxury text-primary">{member.events}</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">événements</span>
                       </div>
-                      <span className="text-xs text-muted-foreground">événements</span>
-                    </div>
+                    )}
                   </div>
 
                   {/* Specialities */}
@@ -116,13 +132,32 @@ export const Team = () => {
 
                   {/* Social Links */}
                   <div className="flex justify-center gap-2 pt-2">
-                    <Button size="sm" variant="outline" className="w-8 h-8 p-0">
-                      <Instagram className="w-3 h-3" />
-                    </Button>
-                    <Button size="sm" variant="outline" className="w-8 h-8 p-0">
-                      <Linkedin className="w-3 h-3" />
-                    </Button>
-                    <Button size="sm" variant="outline" className="w-8 h-8 p-0">
+                    {member.instagram && (
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="w-8 h-8 p-0 hover:bg-primary/10 hover:border-primary/50 transition-colors"
+                        onClick={() => window.open(member.instagram, '_blank')}
+                      >
+                        <Instagram className="w-3 h-3" />
+                      </Button>
+                    )}
+                    {member.linkedin && (
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="w-8 h-8 p-0 hover:bg-primary/10 hover:border-primary/50 transition-colors"
+                        onClick={() => window.open(member.linkedin, '_blank')}
+                      >
+                        <Linkedin className="w-3 h-3" />
+                      </Button>
+                    )}
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="w-8 h-8 p-0 hover:bg-primary/10 hover:border-primary/50 transition-colors"
+                      onClick={() => window.open('mailto:contact@altezaevent.com')}
+                    >
                       <MessageCircle className="w-3 h-3" />
                     </Button>
                   </div>
@@ -143,7 +178,7 @@ export const Team = () => {
           
           <Card className="bg-gradient-secondary border-border text-center">
             <CardContent className="p-6">
-              <div className="text-2xl font-luxury text-primary mb-2">19</div>
+              <div className="text-2xl font-luxury text-primary mb-2">4</div>
               <div className="text-sm text-muted-foreground font-elegant">Années d'expérience</div>
             </CardContent>
           </Card>
@@ -168,8 +203,13 @@ export const Team = () => {
           <p className="text-muted-foreground font-elegant mb-4">
             Rencontrons-nous pour discuter de votre projet
           </p>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-8 py-4">
-            <MessageCircle className="w-5 h-5 mr-2" />
+          <Button 
+            onClick={() => onNavigate ? onNavigate("contact") : window.location.href = "#contact"}
+            variant="outline"
+            size="lg"
+            className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+          >
+            <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
             Prendre rendez-vous
           </Button>
         </div>

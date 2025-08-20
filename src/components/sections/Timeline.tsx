@@ -245,14 +245,14 @@ export const Timeline = () => {
             <button
               onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
               disabled={activeStep === 0}
-              className="px-6 py-3 bg-secondary text-foreground rounded-full hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-elegant"
+              className="group px-6 py-3 border-2 border-white/50 dark:text-white text-foreground rounded-full hover:bg-white/10 dark:hover:bg-white/10 hover:bg-foreground/5 hover:border-primary/70 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-elegant backdrop-blur-sm transform hover:scale-105 disabled:transform-none"
             >
               Étape précédente
             </button>
             <button
               onClick={() => setActiveStep(Math.min(timelineSteps.length - 1, activeStep + 1))}
               disabled={activeStep === timelineSteps.length - 1}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-elegant"
+              className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-elegant transform hover:scale-105 disabled:transform-none"
             >
               Étape suivante
             </button>
