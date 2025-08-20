@@ -1,3 +1,5 @@
+import { getAssetPath } from '@/lib/utils';
+
 interface PreloadOptions {
   priority?: boolean;
   sizes?: string;
@@ -9,12 +11,14 @@ class ImagePreloader {
   private loadedImages = new Set<string>();
 
   preload(src: string, options: PreloadOptions = {}): Promise<HTMLImageElement> {
-    if (this.loadedImages.has(src)) {
+    const assetPath = getAssetPath(src);
+    
+    if (this.loadedImages.has(assetPath)) {
       return Promise.resolve(new Image());
     }
 
-    if (this.cache.has(src)) {
-      return this.cache.get(src)!;
+    if (this.cache.has(assetPath)) {
+      return this.cache.get(assetPath)!;
     }
 
     const promise = new Promise<HTMLImageElement>((resolve, reject) => {
@@ -25,19 +29,20 @@ class ImagePreloader {
       }
 
       img.onload = () => {
-        this.loadedImages.add(src);
+        this.loadedImages.add(assetPath);
         resolve(img);
       };
 
       img.onerror = () => {
-        this.cache.delete(src);
-        reject(new Error(`Failed to preload image: ${src}`));
+        this.cache.delete(assetPath);
+        console.warn(`Failed to preload image: ${assetPath}`);
+        reject(new Error(`Failed to preload image: ${assetPath}`));
       };
 
-      img.src = src;
+      img.src = assetPath;
     });
 
-    this.cache.set(src, promise);
+    this.cache.set(assetPath, promise);
     return promise;
   }
 
@@ -54,7 +59,7 @@ class ImagePreloader {
   }
 
   isLoaded(src: string): boolean {
-    return this.loadedImages.has(src);
+    return this.loadedImages.has(getAssetPath(src));
   }
 
   clear(): void {
@@ -68,9 +73,9 @@ export const imagePreloader = new ImagePreloader();
 // Utility function to preload critical images
 export const preloadCriticalImages = async () => {
   const criticalImages = [
-    '/src/assets/hero-wedding.jpg',
-    '/src/assets/service-mariage.jpg',
-    '/src/assets/service-anniversaire.jpg'
+    'assets/hero-wedding.jpg',
+    'assets/service-mariage.jpg',
+    'assets/service-anniversaire.jpg'
   ];
 
   // Only preload on fast connections and when not on mobile data
@@ -112,8 +117,8 @@ export const intelligentPreload = () => {
   if (isFastConnection && isOnline && !hasLowMemory) {
     // Preload more images on fast connections with good hardware
     const additionalImages = [
-      '/src/assets/service-evjf.jpg',
-      '/src/assets/service-corporate.jpg'
+      'assets/service-evjf.jpg',
+      'assets/service-corporate.jpg'
     ];
     
     // Use Intersection Observer to preload images when they're likely to be needed
