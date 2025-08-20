@@ -144,15 +144,21 @@ export const intelligentPreload = () => {
 // Add performance monitoring
 export const reportWebVitals = (onPerfEntry?: (metric: any) => void) => {
   if (onPerfEntry && typeof onPerfEntry === 'function') {
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-      getCLS(onPerfEntry);
-      getFID(onPerfEntry);
-      getFCP(onPerfEntry);
-      getLCP(onPerfEntry);
-      getTTFB(onPerfEntry);
-    }).catch(() => {
-      // Graceful fallback if web-vitals is not available
-      console.log('Web Vitals not available');
+    // Simple performance monitoring without web-vitals dependency
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        onPerfEntry({
+          name: entry.name,
+          value: entry.startTime || entry.duration || 0,
+          rating: 'good'
+        });
+      }
     });
+    
+    try {
+      observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+    } catch (error) {
+      console.log('Performance monitoring not available');
+    }
   }
 };

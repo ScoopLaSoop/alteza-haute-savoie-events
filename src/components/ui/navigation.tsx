@@ -53,13 +53,14 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
     <>
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-background/98 backdrop-blur-md border-b border-border shadow-luxury' 
+            : 'bg-background/95 backdrop-blur-sm border-b border-border'
+        }`}
         role="navigation"
         aria-label="Navigation principale"
         data-testid="main-navigation"
-        isScrolled 
-          ? 'bg-background/98 backdrop-blur-md border-b border-border shadow-luxury' 
-          : 'bg-background/95 backdrop-blur-sm border-b border-border'
-      }`}>
+      >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <button 
             onClick={() => handleNavigate("accueil")}
