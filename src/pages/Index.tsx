@@ -95,9 +95,9 @@ const Index = () => {
                   <p className="text-xl text-muted-foreground">
                     Parlons-en dès maintenant ! Nos experts vous accompagnent de A à Z pour créer l'événement de vos rêves.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-4 sm:px-6">Demander un devis</Button>
-                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-primary/60 dark:border-foreground/20 bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-foreground/5 hover:border-primary/80 dark:hover:border-foreground/30 hover:text-primary dark:hover:text-primary transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 sm:px-0">
+                    <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] max-w-[280px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-4 sm:px-6">Demander un devis</Button>
+                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] max-w-[280px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-primary/60 dark:border-foreground/20 bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-foreground/5 hover:border-primary/80 dark:hover:border-foreground/30 hover:text-primary dark:hover:text-primary transition-all duration-300">
                       Découvrir nos réalisations
                     </Button>
                   </div>

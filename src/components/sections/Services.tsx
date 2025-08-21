@@ -98,12 +98,12 @@ export const Services = ({ onNavigate }: ServicesProps) => {
           })}
         </div>
 
-        <div className="text-center">
+        <div className="text-center px-4 sm:px-0">
           <Button 
             onClick={() => onNavigate("contact")}
             variant="outline"
             size="lg"
-            className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+            className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 sm:px-10 py-6 text-base sm:text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[320px] mx-auto"
           >
             Demander un devis personnalisé
           </Button>

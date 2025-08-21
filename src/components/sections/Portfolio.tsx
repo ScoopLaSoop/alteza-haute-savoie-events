@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import { BeforeAfterSlider } from "@/components/ui/before-after-slider";
 import { MobileBeforeAfterSlider } from "@/components/ui/mobile-before-after-slider";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -366,7 +366,18 @@ export const Portfolio = () => {
 
         {/* Project Detail Modal */}
         <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-card border-border">
+          <DialogPortal>
+            <DialogOverlay className="bg-black/60 backdrop-blur-sm" />
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-card/95 backdrop-blur-md border-border shadow-2xl">
+            {/* Bouton de fermeture plus visible */}
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="absolute top-4 right-4 z-50 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white hover:text-primary transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-primary/50 hover:scale-110"
+              aria-label="Fermer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
             {selectedProject && (
               <div className="space-y-6">
                 {/* Header */}
@@ -480,7 +491,8 @@ export const Portfolio = () => {
                 </div>
               </div>
             )}
-          </DialogContent>
+            </DialogContent>
+          </DialogPortal>
         </Dialog>
 
         {/* Call to Action */}

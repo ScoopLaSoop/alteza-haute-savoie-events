@@ -485,28 +485,26 @@ export const EventQuiz = () => {
                 Votre demande de devis a été envoyée avec succès. Notre équipe vous contactera dans les 24–48h pour discuter de votre projet.
               </p>
               
-              <div className="space-y-4">
+              <div className="flex flex-col items-center space-y-4 px-4 sm:px-0">
                 <Button 
                   variant="default"
                   size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300 min-w-[250px]"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 sm:px-10 py-6 text-base sm:text-lg transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
                   onClick={() => window.open('https://calendly.com', '_blank')}
                 >
                   <Calendar className="w-4 h-4 mr-2" />
                   Prendre rendez-vous
                 </Button>
                 
-                <div>
-                  <Button 
-                    variant="outline"
-                    size="lg"
-                    className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 min-w-[200px]"
-                    onClick={resetQuiz}
-                  >
-                    <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                    Nouveau quiz
-                  </Button>
-                </div>
+                <Button 
+                  variant="outline"
+                  size="lg"
+                  className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 sm:px-10 py-6 text-base sm:text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
+                  onClick={resetQuiz}
+                >
+                  <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+                  Nouveau quiz
+                </Button>
               </div>
             </CardContent>
           </Card>
