@@ -284,12 +284,12 @@ export const EventQuiz = () => {
                       </div>
                     </div>
 
-                    <div className="flex gap-4 justify-center pt-4">
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 px-4 sm:px-0">
                       <Button 
                         onClick={resetQuiz} 
                         variant="outline"
                         size="lg"
-                        className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                        className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 py-3 text-sm sm:text-base backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
                       >
                         <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Recommencer
@@ -297,7 +297,7 @@ export const EventQuiz = () => {
                       <Button 
                         variant="default"
                         size="lg"
-                        className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300"
+                        className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 py-3 text-sm sm:text-base transform hover:scale-105 transition-all duration-300 w-full sm:w-auto"
                         onClick={(e) => {
                           e.preventDefault();
                           setShowForm(true);
@@ -489,7 +489,7 @@ export const EventQuiz = () => {
                 <Button 
                   variant="default"
                   size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 sm:px-10 py-6 text-base sm:text-lg transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 py-3 text-sm sm:text-base transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
                   onClick={() => window.open('https://calendly.com', '_blank')}
                 >
                   <Calendar className="w-4 h-4 mr-2" />
@@ -499,7 +499,7 @@ export const EventQuiz = () => {
                 <Button 
                   variant="outline"
                   size="lg"
-                  className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 sm:px-10 py-6 text-base sm:text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
+                  className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 py-3 text-sm sm:text-base backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto max-w-[280px]"
                   onClick={resetQuiz}
                 >
                   <RotateCcw className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />

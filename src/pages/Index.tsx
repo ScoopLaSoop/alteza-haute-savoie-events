@@ -36,14 +36,30 @@ const Index = () => {
 
     return () => clearTimeout(timer);
   }, []);
-  const handleNavigate = (page: string) => {
-    setCurrentPage(page);
 
-    // Smooth scroll to top when navigating
+  // Scroll to top when page changes
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
+  }, [currentPage]);
+  const handleNavigate = (page: string) => {
+    setCurrentPage(page);
+
+    // Scroll to top when navigating - use both immediate and smooth for reliability
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+    // Fallback: force scroll to top after a short delay to ensure it works
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'auto'
+      });
+    }, 100);
   };
   const handleContactModal = () => {
     setIsContactModalOpen(true);
@@ -87,22 +103,24 @@ const Index = () => {
             
             {/* Bloc d'accroche "Projet à réaliser" */}
             <section className="py-16 px-4 bg-gradient-section-to-muted">
-              <div className="container mx-auto max-w-4xl text-center">
-                <div className="bg-card/50 backdrop-blur-sm border border-primary/20 rounded-3xl p-12 space-y-6">
-                  <h2 className="text-3xl font-bold text-foreground">
+              <div className="container mx-auto max-w-6xl">
+                <div className="text-center">
+                  <div className="inline-flex flex-col items-center space-y-4 p-6 sm:p-8 bg-card/50 backdrop-blur-sm border border-primary/20 rounded-2xl">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
                     Vous avez un projet d'<span className="text-foreground">événement</span> ?
                   </h2>
-                  <p className="text-xl text-muted-foreground">
+                  <p className="text-lg sm:text-xl text-muted-foreground max-w-md">
                     Parlons-en dès maintenant ! Nos experts vous accompagnent de A à Z pour créer l'événement de vos rêves.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4 sm:px-0">
-                    <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] max-w-[280px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-4 sm:px-6">Demander un devis</Button>
-                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] max-w-[280px] text-sm sm:text-base px-4 sm:px-6 text-foreground border-primary/60 dark:border-foreground/20 bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-foreground/5 hover:border-primary/80 dark:hover:border-foreground/30 hover:text-primary dark:hover:text-primary transition-all duration-300">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Button onClick={handleContactModal} size="lg" className="w-full sm:w-auto sm:min-w-[200px] bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-[0_0_30px_rgba(255,215,0,0.6)] hover:scale-105 transition-all duration-300 transform text-sm sm:text-base px-6 py-3">Demander un devis</Button>
+                    <Button onClick={() => handleNavigate("portfolio")} variant="outline" size="lg" className="w-full sm:w-auto sm:min-w-[200px] text-sm sm:text-base px-6 py-3 text-foreground border-primary/60 dark:border-foreground/20 bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-foreground/5 hover:border-primary/80 dark:hover:border-foreground/30 hover:text-primary dark:hover:text-primary transition-all duration-300">
                       Découvrir nos réalisations
                     </Button>
                   </div>
                 </div>
               </div>
+            </div>
             </section>
           </>;
     }
