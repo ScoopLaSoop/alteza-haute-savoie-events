@@ -3,6 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script>
+      window.__prependToUrl = window.__prependToUrl || function (p) {
+        if (!p) return "";
+        if (/^https?:\/\//i.test(p)) return p;
+        const base = (document.querySelector("base")?.getAttribute("href")) || "./";
+        const norm = p.replace(/^\.?\//, "");
+        return (base.endsWith("/") ? base : base + "/") + norm;
+      };
+    </script>
     <meta name="theme-color" content="#FFD700" />
     <meta name="color-scheme" content="light dark" />
     
