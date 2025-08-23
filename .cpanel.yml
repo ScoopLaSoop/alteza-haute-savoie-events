@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/dade0559/public_html/
+    - export SOURCEPATH=/home/dade0559/repositories/alteza-haute-savoie-events/
+    - /bin/cp -R $SOURCEPATH/dist/* $DEPLOYPATH
+    - /bin/cp $SOURCEPATH/dist/.htaccess $DEPLOYPATH
+    - /bin/cp $SOURCEPATH/dist/_redirects $DEPLOYPATH
+    - /bin/cp $SOURCEPATH/dist/nginx.conf $DEPLOYPATH
