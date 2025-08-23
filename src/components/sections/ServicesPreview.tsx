@@ -56,32 +56,34 @@ export const ServicesPreview = ({
 
         {/* CTA après la section Services */}
         <div className="text-center">
-          <div className="inline-flex flex-col items-center space-y-4 p-8 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl border border-primary/20">
-            <h3 className="text-2xl font-semibold text-foreground">
-              Vous avez un projet ? Parlons-en !
-            </h3>
-            <p className="text-muted-foreground max-w-md">
-              Chaque événement est unique. Découvrez comment nous pouvons transformer votre vision en réalité.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button 
-                onClick={() => onNavigate("services")} 
-                variant="outline" 
-                size="lg" 
-                className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-10 py-6 text-lg backdrop-blur-sm transform hover:scale-105 transition-all duration-300 w-full sm:w-auto sm:min-w-[200px]"
-              >
-                Découvrir nos services
-              </Button>
-              <Button 
-                onClick={() => onNavigate("contact")} 
-                variant="default"
-                size="lg" 
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-10 py-6 text-lg transform hover:scale-105 transition-all duration-300 w-full sm:w-auto sm:min-w-[200px]"
-              >
-                Obtenir un devis personnalisé
-              </Button>
-            </div>
-          </div>
+          <Card className="group hover:scale-105 transition-all duration-300 bg-gradient-to-r from-primary/10 to-secondary/10 backdrop-blur-sm border-primary/20 hover:border-primary/50 max-w-sm mx-auto">
+            <CardContent className="p-8 text-center space-y-4">
+              <h3 className="text-xl font-semibold text-foreground">
+                Vous avez un projet ? Parlons-en !
+              </h3>
+              <p className="text-muted-foreground">
+                Chaque événement est unique. Découvrez comment nous pouvons transformer votre vision en réalité.
+              </p>
+              <div className="flex flex-col gap-4">
+                <Button 
+                  onClick={() => onNavigate("services")} 
+                  variant="outline" 
+                  size="lg" 
+                  className="group border-2 border-primary/60 dark:border-white/50 dark:text-white text-foreground bg-white/10 dark:bg-transparent hover:bg-primary/10 dark:hover:bg-white/10 hover:border-primary/80 dark:hover:border-primary/70 hover:text-primary dark:hover:text-primary font-elegant px-6 py-3 text-sm sm:text-base backdrop-blur-sm transform hover:scale-105 transition-all duration-300"
+                >
+                  Découvrir nos services
+                </Button>
+                <Button 
+                  onClick={() => onNavigate("contact")} 
+                  variant="default"
+                  size="lg" 
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-elegant px-6 py-3 text-sm sm:text-base transform hover:scale-105 transition-all duration-300"
+                >
+                  Obtenir un devis personnalisé
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>;

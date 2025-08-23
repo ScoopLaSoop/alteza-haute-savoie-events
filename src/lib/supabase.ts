@@ -14,8 +14,8 @@ console.log('🔧 Supabase Config:', {
   isDemoMode 
 });
 
-// Créer le client Supabase
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Créer le client Supabase seulement si les variables sont définies
+export const supabase = isDemoMode ? null : createClient(supabaseUrl, supabaseKey);
 
 // Types pour la base de données
 export interface Client {
@@ -50,7 +50,7 @@ export const clientService = {
   // Créer ou récupérer un client
   async upsertClient(clientData: Omit<Client, 'id' | 'created_at' | 'updated_at'>): Promise<Client | null> {
     // Mode démo - simuler le succès
-    if (isDemoMode) {
+    if (isDemoMode || !supabase) {
       console.log('Mode démo - Client simulé:', clientData);
       return {
         id: 'demo-client-' + Date.now(),
@@ -118,6 +118,10 @@ export const clientService = {
 
   // Récupérer tous les clients
   async getAllClients(): Promise<Client[]> {
+    if (isDemoMode || !supabase) {
+      return [];
+    }
+    
     try {
       const { data, error } = await supabase
         .from('clients')
@@ -138,7 +142,7 @@ export const devisService = {
   // Créer une nouvelle demande de devis
   async createDemandeDevis(devisData: Omit<DemandeDevis, 'id' | 'created_at' | 'updated_at'>): Promise<DemandeDevis | null> {
     // Mode démo - simuler le succès
-    if (isDemoMode) {
+    if (isDemoMode || !supabase) {
       console.log('Mode démo - Devis simulé:', devisData);
       return {
         id: 'demo-devis-' + Date.now(),
@@ -171,6 +175,10 @@ export const devisService = {
 
   // Récupérer toutes les demandes de devis
   async getAllDemandesDevis(): Promise<DemandeDevis[]> {
+    if (isDemoMode || !supabase) {
+      return [];
+    }
+    
     try {
       const { data, error } = await supabase
         .from('demandes_devis')
@@ -190,6 +198,10 @@ export const devisService = {
 
   // Mettre à jour le statut d'une demande de devis
   async updateStatutDevis(id: string, statut: DemandeDevis['statut']): Promise<boolean> {
+    if (isDemoMode || !supabase) {
+      return true;
+    }
+    
     try {
       const { error } = await supabase
         .from('demandes_devis')
@@ -210,6 +222,10 @@ export const devisService = {
 
 // Fonction pour tester la connexion
 export const testConnection = async (): Promise<boolean> => {
+  if (isDemoMode || !supabase) {
+    return false;
+  }
+  
   try {
     const { data, error } = await supabase
       .from('clients')
