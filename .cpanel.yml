@@ -3,6 +3,9 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/dade0559/public_html/
     - export SOURCEPATH=/home/dade0559/repositories/alteza-haute-savoie-events/
+    - cd $SOURCEPATH
+    - npm install
+    - npm run build
     - /bin/cp -R $SOURCEPATH/dist/* $DEPLOYPATH
     - /bin/cp $SOURCEPATH/dist/.htaccess $DEPLOYPATH
     - /bin/cp $SOURCEPATH/dist/_redirects $DEPLOYPATH
